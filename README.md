@@ -16,7 +16,7 @@ you can find `mali_csffw.bin` in container's `/vendor/etc/firmware` path.
 # Redroid 12 启用GPU加速的镜像
 `Gapps`已安装  
 `Magisk(Kitsune版)`已安装
-已对`surfaceflinger`打patch，因此可以正常地在app中输入密码（不会黑屏）
+已对`surfaceflinger`打patch，因此可以正常地在app中输入密码（不会黑屏）  
 运行
 ```bash
 docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --device /dev/mali0 --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
