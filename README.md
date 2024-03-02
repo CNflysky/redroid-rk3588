@@ -4,7 +4,7 @@
 Hacked `surfaceflinger` so can type password in some apps without black screen  
 Run:
 ```bash
-docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --device /dev/mali0 --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
+docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
 make sure your kernel version = `5.10.160` and `mali ddk` version = `g18p0`.
 ```bash
@@ -19,7 +19,7 @@ you can find `mali_csffw.bin` in container's `/vendor/etc/firmware` path.
 已对`surfaceflinger`打patch，因此可以正常地在app中输入密码（不会黑屏）  
 运行
 ```bash
-docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --device /dev/mali0 --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
+docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
 确保你的内核版本为5.10.160，mali ddk版本为g18p0。
 ```bash
