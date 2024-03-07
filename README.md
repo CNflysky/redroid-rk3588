@@ -31,3 +31,14 @@ add `androidboot.redroid_virt_wifi=1` argument to enable Virtual WiFi.
 ## Other
 Tested on `Orange Pi 5 Plus w/16G RAM`，running `Armbian` with `5.10.160` kernel (customzied).
 
+## Gallery
+### Android 12
+![Android 12](https://github.com/CNflysky/redroid-rk3588/assets/48781081/1fb19e50-b6d7-414a-838f-93a2069a1c2c)
+### Android 13
+![Android 13](https://github.com/CNflysky/redroid-rk3588/assets/48781081/06336b3c-3acc-420e-afd3-40af518aa9fc)
+### Apps
+![Screenshot_20240307-072620](https://github.com/CNflysky/redroid-rk3588/assets/48781081/5cb921b6-ff7f-4d4b-8758-d788d91339b8)
+![Screenshot_20240307-072633](https://github.com/CNflysky/redroid-rk3588/assets/48781081/308cd487-5f90-470c-88fd-4ade4973d5a5)
+![Screenshot_20240307-072704](https://github.com/CNflysky/redroid-rk3588/assets/48781081/fcbe9ff0-f924-4ef8-a7f7-e4ab0ca3e020)
+![Screenshot_20240307-072722](https://github.com/CNflysky/redroid-rk3588/assets/48781081/e6edcf4f-a761-47d3-8ce9-1f7d7ca194e8)
+![Screenshot_20240307-072751](https://github.com/CNflysky/redroid-rk3588/assets/48781081/be2d1163-93bf-4590-a474-b5f0fadb2d20)
