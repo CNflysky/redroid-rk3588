@@ -1,4 +1,8 @@
 # Redroid Image For RK3588 with Multiple Features
+## Supported Versions
+- `Android 12(12.0.0-latest)`
+- `Android 13(13.0.0-latest)`
+
 ## Supported Features
 - `Gapps`  
 - `Magisk(Kitsune fork)` 
@@ -16,6 +20,7 @@ If you wish use `Virtual Wifi`, you must make sure your host's kernel has `mac80
 
 ## Run:
 ```bash
+# change image name if you want to use Android 13
 docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
 add `androidboot.redroid_virt_wifi=1` argument if you want to enable Virtual WiFi.
@@ -23,6 +28,10 @@ add `androidboot.redroid_virt_wifi=1` argument if you want to enable Virtual WiF
 
 
 # 适用于RK3588的Redroid镜像，包含多种功能
+## 支持版本
+- `Android 12(12.0.0-latest)`
+- `Android 13(13.0.0-latest)`
+
 ## 支持功能
 - `Gapps`  
 - `Magisk(Kitsune 版)` 
@@ -41,6 +50,7 @@ dmesg | grep DDK
 
 ## 运行
 ```bash
+# 欲使用Android 13,请修改镜像名。
 docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
 欲使用虚拟WiFi，请于命令最后添加 `androidboot.redroid_virt_wifi=1` 参数。
