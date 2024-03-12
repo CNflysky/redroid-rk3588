@@ -29,7 +29,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 add `androidboot.redroid_virt_wifi=1` argument to enable Virtual WiFi.
 
 ## Other
-Tested on `Orange Pi 5 Plus w/16G RAM`，running `Armbian` with `5.10.160` kernel (customzied).
+Tested on `Orange Pi 5 Plus w/16G RAM`，running `Armbian server` (`Debian 12 "Bookworm"`) with `5.10.160` kernel (customzied), docker version 20.10.24(`docker.io`).
 
 ## Gallery
 ### Android 12
