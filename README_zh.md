@@ -29,7 +29,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 欲使用虚拟WiFi，请于命令最后添加 `androidboot.redroid_virt_wifi=1` 参数。
 
 ## 其它
-测试环境： `Orange Pi 5 Plus w/16G 内存`, 运行 `Armbian` ，内核版本 `5.10.160` (自定义内核).  
+测试环境： `Orange Pi 5 Plus w/16G 内存`, 运行 `Armbian 服务器版`(`Debian 12 "Bookworm"`) ，内核版本 `5.10.160` (自定义内核)，docker版本`20.10.24`(`docker.io`).  
 
 ## 展示
 ### Android 12
