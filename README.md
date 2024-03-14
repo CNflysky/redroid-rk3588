@@ -19,7 +19,10 @@ dmesg | grep DDK
 ```
 `mali_csffw.bin` file is required to run this image, place it under host's `/lib/firmware`.  
 You can find `mali_csffw.bin` at container's `/vendor/etc/firmware`.  
-If you wish use `Virtual Wifi`, you must make sure your host's kernel has `mac80211_hwsim` module support.  
+
+If you wish use `Virtual Wifi`:
+- need `mac80211_hwsim` module
+- switch to `iptables-legacy` in your host os or load `iptable_nat` module: `sudo modprobe iptable_nat`
 
 ## Run
 ```bash
