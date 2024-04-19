@@ -19,14 +19,22 @@ dmesg | grep DDK
 本镜像需要`mali_csffw.bin`文件才能运行，将其放置于宿主机的`/lib/firmware`下即可。  
 你可以在容器的`/vendor/etc/firmware` 目录中找到它。  
 
-如果你想要使用`虚拟WiFi`功能，请确保宿主机上有`mac80211_hwsim`内核模块支持。
+如果你想要使用`虚拟WiFi`功能:
+- `mac80211_hwsim`
+- 在宿主机上切换到 `iptables-legacy`
+- ...或是加载 `iptable_nat` 模块: `sudo modprobe iptable_nat`
 
 ## 运行
 ```bash
 # 欲使用Android 13,请修改镜像名。
 docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
-欲使用虚拟WiFi，请于命令最后添加 `androidboot.redroid_virt_wifi=1` 参数。
+
+## 参数
+| 参数 | 描述 | 
+| --- | --- |
+| `androidboot.redroid_virt_wifi=1` | 启用虚拟WiFi |
+| `androidboot.redroid_magisk=1` | 启用Magisk |
 
 ## 其它
 测试环境： `Orange Pi 5 Plus w/16G 内存`, 运行 `Armbian 服务器版`(`Debian 12 "Bookworm"`) ，内核版本 `5.10.160` (自定义内核)，docker版本`20.10.24`(`docker.io`).  
