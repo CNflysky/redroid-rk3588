@@ -1,4 +1,6 @@
 # 适用于RK3588的Redroid镜像，包含多种功能
+## 交流群
+TODO
 
 ## 支持版本
 - `Android 12(12.0.0-latest)`
@@ -16,8 +18,11 @@
 ```bash
 dmesg | grep DDK
 ```
-本镜像需要`mali_csffw.bin`文件才能运行，将其放置于宿主机的`/lib/firmware`下即可。  
-你可以在容器的`/vendor/etc/firmware` 目录中找到它。  
+本镜像需要`mali_csffw.bin`文件才能运行，将其放置于宿主机的`/lib/firmware`下:
+```bash
+sudo docker cp redroid:/vendor/etc/firmware/mali_csffw.bin /lib/firmware/
+sudo docker restart redroid
+```  
 
 如果你想要使用`虚拟WiFi`功能:
 - `mac80211_hwsim`
@@ -26,7 +31,6 @@ dmesg | grep DDK
 
 ## 运行
 ```bash
-# 欲使用Android 13,请修改镜像名。
 docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
 
@@ -37,7 +41,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 | `androidboot.redroid_magisk=1` | 启用Magisk |
 
 ## 其它
-测试环境： `Orange Pi 5 Plus w/16G 内存`, 运行 `Armbian 服务器版`(`Debian 12 "Bookworm"`) ，内核版本 `5.10.160` (自定义内核)，docker版本`20.10.24`(`docker.io`).  
+测试环境： `Orange Pi 5 Plus w/16G RAM`, 运行 `Armbian 服务器版`(`Debian 12 "Bookworm"`) ，内核版本 `5.10.160` (自定义内核)，docker版本`20.10.24`(`docker.io`).  
 
 ## 展示
 ### Android 12
