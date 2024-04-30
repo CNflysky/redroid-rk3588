@@ -17,17 +17,20 @@ make sure your kernel version = `5.10.160` and `mali ddk` version = `g18p0`.
 ```bash
 dmesg | grep DDK
 ```
-`mali_csffw.bin` file is required, place it under host's `/lib/firmware`.  
-You can find `mali_csffw.bin` at container's `/vendor/etc/firmware`.  
+`mali_csffw.bin` file is required, place it under host's `/lib/firmware`:
 
-If you wish use `Virtual Wifi`:
+```bash
+sudo docker cp redroid:/vendor/etc/firmware/mali_csffw.bin /lib/firmware/
+sudo docker restart redroid
+```
+
+If you wish use `Virtual WiFi`:
 - `mac80211_hwsim`
 - switch to `iptables-legacy` in your host os
 - ...or load `iptable_nat` module: `sudo modprobe iptable_nat`
 
 ## Run
 ```bash
-# change image name if you wish use Android 13
 docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
 ## Arguments
