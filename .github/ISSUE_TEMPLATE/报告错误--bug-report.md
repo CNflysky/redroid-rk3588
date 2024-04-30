@@ -1,11 +1,15 @@
 ---
 name: 报告错误/ Bug report
-about: 报告一个错误/Create a report to help us improve
+about: 报告一个错误/Report a bug
 title: ''
 labels: ''
 assignees: ''
 
 ---
+
+**NOTICE: ANY BUG REPORT NOT USING THIS TEMPLETE WILL BE CLOSED AS NOT PLANNED**
+**注意：任何未使用该模板的错误报告将被直接关闭**
+
 
 **Describe the bug**
 **描述Bug**
@@ -14,14 +18,17 @@ A clear and concise description of what the bug is.
 
 **Required Information**
 **基本信息**
-- Image name
+- container Image name
 - 镜像名称
+e.g. `13.0.0-latest`
 
-- OS Information(`Debian`、`Ubuntu`……)
+- OS Information
 - 系统信息
+e.g. `Armbian Bookworm Server`
 
 - Kernel version
 - 内核版本
+e.g. `5.10.160-rockchip-rk35xx`
 
 
 **To Reproduce**
@@ -29,11 +36,6 @@ A clear and concise description of what the bug is.
 Steps to reproduce the behavior:
 以下是复现该问题的步骤：
 
-
-**Expected behavior**
-**预期行为**
-A clear and concise description of what you expected to happen.
-提供一个清晰简洁的预期行为
 
 **Screenshots**
 **截图**
