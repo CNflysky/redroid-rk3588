@@ -18,9 +18,13 @@ A clear and concise description of what the bug is.
 
 **Required Information**
 **基本信息**
-- container Image name
+- docker image name
 - 镜像名称
 e.g. `13.0.0-latest`
+
+- Board Information
+- 板卡信息
+e.g. `Orange Pi 5 Plus + 16 GB RAM`
 
 - OS Information
 - 系统信息
