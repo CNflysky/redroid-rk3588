@@ -31,6 +31,8 @@ If you wish use `Virtual WiFi`:
 
 ## Run
 ```bash
+git clone https://github.com/CNflysky/redroid-rk3588.git --depth 1
+cd redroid-rk3588
 # if you use docker-ce
 docker compose up -d
 # or docker.io:
