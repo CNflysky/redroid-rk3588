@@ -25,21 +25,44 @@ sudo docker restart redroid
 ```
 
 If you wish use `Virtual WiFi`:
-- `mac80211_hwsim`
+- `mac80211_hwsim`, see below
 - switch to `iptables-legacy` in your host os
 - ...or load `iptable_nat` module: `sudo modprobe iptable_nat`
 
 ## Run
 ```bash
+# if you use docker-ce
+docker compose up -d
+# or docker.io:
+sudo apt install docker-compose -y
+docker-compose up -d
+```
+manual:
+```bash
 docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
+
+# Build mac80211_hwsim
+If your kernel lacks mac80211_hwsim module, you can build it by following steps:  
+```bash
+# armbian user only！
+sudo apt install linux-headers-legacy-rk35xx
+cd mac80211_hwsim
+make
+sudo cp mac80211_hwsim.ko /lib/modules/`uname -r`/kernel/drivers/net/wireless
+sudo depmod
+echo "mac80211_hwsim" | sudo tee /etc/modules-load.d/redroid.conf
+
+# reboot your board.
+```
+
 ## Arguments
 | Argument | Description | 
 | --- | --- |
 | `androidboot.redroid_virt_wifi=1` | enable virtual WiFi |
 | `androidboot.redroid_magisk=1` | enable magisk |
 
-## Other
+## Extra Info
 Tested on `Orange Pi 5 Plus w/16G RAM`, OS `Armbian server` (`Debian 12 "Bookworm"`) with `5.10.160` kernel (customzied), docker version 20.10.24(`docker.io`).
 
 ## Gallery
