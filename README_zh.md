@@ -51,7 +51,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 | `androidboot.redroid_magisk=1` | 启用Magisk |
 
 # 构建 mac80211_hwsim
-如果你的内核没有mac80211_hwsim模块支持，你可以通过以下方式来构建该模块：:  
+如果你的内核没有mac80211_hwsim模块支持，你可以通过以下方式来构建该模块：
 ```bash
 # 仅armbian用户
 sudo apt install linux-headers-legacy-rk35xx
