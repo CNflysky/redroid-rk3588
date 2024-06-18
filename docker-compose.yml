@@ -1,0 +1,23 @@
+version: '3'
+services:
+  redroid:
+    image: cnflysky/redroid-rk3588:12.0.0-latest
+    container_name: redroid
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - "5555:5555"
+    volumes:
+      - "~/redroid-data:/data"
+    command: 
+      - "androidboot.redroid_width=1080"
+      - "androidboot.redroid_height=1920"
+
+      # uncomment following line to enable magisk
+      # - "androidboot.redroid_magisk=1"
+
+      # uncomment following line to enable virtual wifi
+      # - "androidboot.redroid_virt_wifi=1"
+
+      # see https://source.android.com/docs/setup/create/new-device PRODUCT_CHARACTERISTICS 
+      - "ro.build.characteristics=default"
