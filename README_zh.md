@@ -25,11 +25,21 @@ sudo docker restart redroid
 ```  
 
 如果你想要使用`虚拟WiFi`功能:
-- `mac80211_hwsim`
+- `mac80211_hwsim`，见下节
 - 在宿主机上切换到 `iptables-legacy`
 - ...或是加载 `iptable_nat` 模块: `sudo modprobe iptable_nat`
 
 ## 运行
+```bash
+git clone https://github.com/CNflysky/redroid-rk3588.git --depth 1
+cd redroid-rk3588
+# 如果你使用docker-ce:
+docker compose up -d
+# 或者是docker.io: 
+sudo apt install docker-compose
+docker-compose up -d
+```
+手动运行：
 ```bash
 docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
@@ -40,7 +50,22 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 | `androidboot.redroid_virt_wifi=1` | 启用虚拟WiFi |
 | `androidboot.redroid_magisk=1` | 启用Magisk |
 
-## 其它
+# 构建 mac80211_hwsim
+如果你的内核没有mac80211_hwsim模块支持，你可以通过以下方式来构建该模块：:  
+```bash
+# 仅armbian用户
+sudo apt install linux-headers-legacy-rk35xx
+cd mac80211_hwsim
+make
+sudo cp mac80211_hwsim.ko /lib/modules/`uname -r`/kernel/drivers/net/wireless
+sudo depmod
+echo "mac80211_hwsim" | sudo tee /etc/modules-load.d/redroid.conf
+
+# 重启你的板子
+```
+
+
+## 额外信息
 测试环境： `Orange Pi 5 Plus w/16G RAM`, 运行 `Armbian 服务器版`(`Debian 12 "Bookworm"`) ，内核版本 `5.10.160` (自定义内核)，docker版本`20.10.24`(`docker.io`).  
 
 ## 展示
