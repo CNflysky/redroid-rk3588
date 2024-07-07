@@ -12,6 +12,9 @@
 - `Fake WiFi` support (let apps believe WiFi is connected)
 - `Virtual WiFi` support(buggy, deprecated)
 - `Via` Browser installed
+- `Lineage Music` installed
+- `Lineage Gallery` installed
+
 
 ## Prerequisites
 make sure your kernel version = `5.10.160` and `mali ddk` version = `g18p0`.
@@ -42,6 +45,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 ## Arguments
 | Argument | Description | 
 | --- | --- |
+| `androidboot.redroid_fps=60` | set fps, range (1,120) |
 | `androidboot.redroid_magisk=1` | enable magisk |
 | `androidboot.redroid_fake_wifi=1` | enable fake WiFi |
 | `androidboot.redroid_fake_wifi_ssid=FakeWiFi` | set fake WiFi ssid |

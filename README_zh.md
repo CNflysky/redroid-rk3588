@@ -13,6 +13,8 @@
 - `虚假 WiFi` (使app认为WiFi已连接)
 - `虚拟 WiFi` (有bug，已弃用)
 - 预装`Via`浏览器
+- 预装`LineageOS 音乐`
+- 预装`LineageOS 图库`
 
 ## 前提条件
 确保你的内核版本为`5.10.160`，`mali ddk`版本为`g18p0`。
@@ -43,7 +45,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 ## 参数
 | 参数 | 描述 | 
 | --- | --- |
-| `androidboot.redroid_magisk=1` | 启用Magisk |
+| `androidboot.redroid_fps=60` | 设置刷新率, 取值范围 (1,120) |
 | `androidboot.redroid_magisk=1` | 启用 Magisk |
 | `androidboot.redroid_fake_wifi=1` | 启用虚假 WiFi |
 | `androidboot.redroid_fake_wifi_ssid=FakeWiFi` | 设置虚假 WiFi ssid |
