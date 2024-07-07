@@ -1,241 +1,212 @@
 #!/bin/bash
+set -e
+export VERSION=0.1
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+color_echo() {
+    local color=$1
+    shift
+    echo -e "${color}$*${NC}"
+}
 
 check_kernel_version() {
-    if ! uname -r | grep -q "5.10.160"; then
-        echo "你的内核版本不包含 5.10.160, 放弃吧, 换个内核再试试?"
-        exit 1
+    if grep -q "5.10.160" /proc/version > /dev/null 2>&1
+    then
+	color_echo $GREEN $"Kernel version: `uname -r`"
+    else
+        color_echo $RED "Kernel version mismatch: `uname -r`"
+        export KERNEL_VERSION_MISMATCH=1
     fi
 }
 
 check_docker() {
     if command -v docker >/dev/null 2>&1; then
-        echo "有 Docker, 好!"
+        color_echo $GREEN "Docker installed."
     else
-        install_docker
+        color_echo $YELLOW "Docker not installed."
+	export DOCKER_NOT_INSTALLED=1
     fi
 }
 
-check_mali_firmware() {
-    if dmesg | grep -q "Kernel DDK version"; then
-        echo "看起来你的系统包含 GPU 内核驱动, 注意一下版本是否为 g18p0."
-        dmesg | grep "Kernel DDK version"
+check_mali_driver() {
+    if [ -f /sys/module/bifrost_kbase/version ]
+    then
+	if grep -q "g18p0" /sys/module/bifrost_kbase/version > /dev/null 2>&1
+	then
+		color_echo $GREEN "Mali DDK verison: `cat /sys/module/bifrost_kbase/version`"
+	else
+		color_echo $RED "Mali DDK version mismatch: `cat /sys/module/bifrost_kbase/version`"
+		export MALI_DDK_VER_MISMATCH=1
+	fi
     else
-        echo "看起来你的系统不包含 Mali GPU 内核驱动, 建议换个内核, 或者设备树, 或者都换掉."
-        echo "也有可能只是日志被覆盖了, 建议重启试试."
-        exit 1
+	color_echo $RED "Mali kernel driver missing."
+	export MALI_KERNEL_DRIVER_MISSING=1
     fi
-    if [ -f "/lib/firmware/mali_csffw.bin" ]; then
-        echo "看起来 mali 固件在它该呆的地方。"
-        export MALI_NOT_HERE=0
-    else
-        echo "mali 固件不在它该呆的地方。稍等咱给你整一份。"
-        export MALI_NOT_HERE=1
-    fi
+}
+
+check_mali_firmware(){
+	if [ -f /lib/firmware/mali_csffw.bin ]
+	then
+		mali_fw_git_sha=`strings /lib/firmware/mali_csffw.bin | grep git_sha | cut -d ' ' -f 2`
+		if [ $mali_fw_git_sha == ee476db42870778306fa8d559a605a73f13e455c ]
+		then
+			color_echo $GREEN "Mali CSF Firmware git_sha: $mali_fw_git_sha"	
+		else
+			color_echo $YELLOW "Mali CSF Firmware git_sha mismatch: $mali_fw_git_sha"
+			export MALI_CSF_FW_GIT_SHA_MISMATCH=1
+		fi
+	else
+		color_echo $YELLOW "Mali CSF Firmware missing."
+		export MALI_CSF_FW_MISSING=1
+	fi
+}
+
+check_kernel_config_location() {
+	if [ -f /proc/config.gz ]
+	then
+		export CONFIG_PATH=/proc/config.gz
+	elif [ -f /boot/config-`uname -r` ]
+	then
+		export CONFIG_PATH=/boot/config-`uname -r`
+	fi
+	[ -z $CONFIG_PATH ] && color_echo $RED "Kernel config missing" || color_echo $GREEN "Kernel config: $CONFIG_PATH"
+}
+
+check_kernel_config(){
+	if zgrep -q "CONFIG_ANDROID_BINDERFS=y" $CONFIG_PATH > /dev/null 2>&1
+	then
+		color_echo $GREEN "CONFIG_ANDROID_BINDERFS=y"
+	else
+		color_echo $RED "CONFIG_ANDROID_BINDERFS is not enabled in your kernel."
+		export BINDERFS_MISSING=1
+	fi
+
+	if zgrep -q "CONFIG_PSI=y" $CONFIG_PATH > /dev/null 2>&1
+	then
+		color_echo $GREEN "CONFIG_PSI=y"
+	else
+		color_echo $RED "CONFIG_PSI is not enabled in your kernel."
+		export PSI_MISSING=1
+	fi
+
 }
 
 check_binderfs() {
-    if cat /proc/filesystems | grep -q "binder"; then
-        echo "binderfs 已经挂载。"
+    if grep -q binder /proc/filesystems
+    then
+	    color_echo $GREEN "binderfs enabled."
     else
-        echo "binderfs 没有挂载。"
-        if [ -f "/etc/armbian-release" ]; then
-            echo "是 armbian 呢."
-            echo "咱给你挂载 binderfs."
-            sudo modprobe binder_linux
-            sudo modprobe binder
-            sudo modprobe binder_hl
-            sudo mount -t binder binder /dev/binderfs
-            echo "尝试挂载了一下 binderfs."
-            check_binderfs
-        else
-            echo "不是 armbian 呢. 得靠你自己辣."
-            exit 1
-        fi
+	    color_echo $RED "binderfs not enabled."
     fi
 }
 
-check_mac80211_hwsim() {
-    if lsmod | grep -q "mac80211_hwsim"; then
-        echo "mac80211_hwsim 已经加载。"
-    else
-        echo "mac80211_hwsim 没有加载。"
-        if [ -f "/etc/armbian-release" ]; then
-            echo "是 armbian 呢."
-            echo "咱给你整一个 mac80211_hwsim."
-            if [ ! -f "/lib/modules/$(uname -r)/kernel/drivers/net/wireless/mac80211_hwsim.ko" ]; then
-                echo "本地没有 mac80211_hwsim.ko, 咱给你整一个."
-                cd ~/redroid-rk3588
-                make
-                sudo cp mac80211_hwsim.ko /lib/modules/$(uname -r)/kernel/drivers/net/wireless
-                sudo depmod
-                echo "mac80211_hwsim" | sudo tee /etc/modules-load.d/redroid.conf
-            fi
-            sudo modprobe mac80211_hwsim
-            if lsmod | grep -q "mac80211_hwsim"; then
-                echo "mac80211_hwsim 加载完毕。"
-            else
-                echo "mac80211_hwsim 加载失败。"
-                exit 1
-            fi
-        else
-            echo "不是 armbian 呢. 得靠你自己辣."
-            exit 1
-        fi
-    fi
-}
-
-clone_repository() {
-    if [ ! -d ~/redroid-rk3588 ]; then
-        echo "看起来你还没有 redroid-rk3588 仓库。咱给你 clone 一份。"
-        if git clone https://github.com/CNflysky/redroid-rk3588 --depth=1 ~/redroid-rk3588; then
-            echo "Clone 成功。"
-        else
-            echo "网不好吧, clone 失败了。"
-            return 1
-        fi
-    else
-        echo "redroid-rk3588 仓库已存在。"
-    fi
-}
-
-diagnose_container() {
-    check_mali_firmware
-    install_mali_firmware
+check_env(){
+    color_echo $GREEN "========================================"
+    color_echo $YELLOW "checking kernel version..."
+    check_kernel_version
+    color_echo $GREEN "========================================"
+    color_echo $YELLOW "checking mali driver version..."
+	check_mali_driver
+	color_echo $GREEN "========================================"
+    color_echo $YELLOW "checking mali firmware version..."
+	check_mali_firmware
+	color_echo $GREEN "========================================"
+    color_echo $YELLOW "checking kernel config location..."
+	check_kernel_config_location
+	color_echo $GREEN "========================================"
+    color_echo $YELLOW "checking kernel config..."
+	check_kernel_config
+    color_echo $GREEN "========================================"
+    color_echo $YELLOW "checking binderfs..."
     check_binderfs
-    check_mac80211_hwsim
-    if [ $MALI_NOT_HERE -eq 0 ]; then
-        sudo docker restart $container_id
-        echo "再试试看?"
-        exit 0
-    fi
+    color_echo $GREEN "========================================"
+    color_echo $YELLOW "checking docker..."
+    check_docker
 }
 
-install_mali_firmware() {
-    if [ $MALI_NOT_HERE -eq 1 ]; then
-        sudo docker cp $container_id:/vendor/etc/firmware/mali_csffw.bin /lib/firmware/
-    fi
+print_summary() {
+    color_echo $GREEN "========================================"
+    color_echo $YELLOW Summary
+    [ -n "$KERNEL_VERSION_MISMATCH" ] && color_echo $RED "FATAL: Kernel version mismatch" && export FATAL=1
+    [ -n "$MALI_KERNEL_DRIVER_MISSING" ] && color_echo $RED "FATAL: Mali kernel driver missing" && export FATAL=1
+    [ -n "$MALI_DDK_VER_MISMATCH" ] && color_echo $RED "FATAL: Mali DDK version mismatch" && export FATAL=1
+    [ -n "$BINDERFS_MISSING" ] && color_echo $RED "FATAL: CONFIG_ANDROID_BINDERFS is not enabled in your kernel" && export FATAL=1
+    [ -n "$PSI_MISSING" ] && color_echo $RED "FATAL: CCONFIG_PSI is not enabled in your kernel" && export FATAL=1
+    [ -n "$FATAL" ] && color_echo $RED "FATAL: At least one of those mandatory kernel features are not met. You must install another kernel or compile kernel by yourself." && exit 1 || color_echo $GREEN "All mandatory features are met."
+}
+
+install_mali_csf_fw() {
+    sudo docker run -d --rm --name redroid-temp --privileged cnflysky/redroid-rk3588:12.0.0-latest
+    sudo docker cp redroid-temp:/vendor/etc/firmware/mali_csffw.bin /lib/firmware/
+    sudo docker stop redroid-temp -t 0
     check_mali_firmware
-    if [ $MALI_NOT_HERE -eq 0 ]; then
-        echo "mali 固件已经整到 /lib/firmware/ 里了。"
-    else
-        echo "mali 固件整不进 /lib/firmware/ , 哪里出了问题？"
-        exit 1
-    fi
-}
-
-install_hw80211() {
-    if [ -f "/etc/armbian-release" ]; then
-        echo "是 armbian 呢."
-        cd ~/redroid-rk3588
-        make
-        sudo cp mac80211_hwsim.ko /lib/modules/$(uname -r)/kernel/drivers/net/wireless
-        sudo depmod
-        echo "mac80211_hwsim" | sudo tee /etc/modules-load.d/redroid.conf
-    else
-        echo "不是 armbian 呢. 得靠你自己辣."
-        exit 1
-    fi
-}
-
-start_container() {
-    echo "咱给你启动一个容器."
-    echo "参数是: $bootargs"
-    container_id=$(sudo $bootargs)
-    sudo docker stop -t 1 $container_id
-    check_mali_firmware
-    install_mali_firmware
-    install_hw80211
-    sudo docker start $container_id
-    echo "开好辣, 容器编号是: $container_id"
-}
-
-pull_image() {
-    echo "看起来你没有这个镜像, 咱给你拉一份. 你要哪个版本?"
-    echo '1) Android 12(12.0.0-latest)'
-    echo '2) Android 13(13.0.0-latest)'
-    while true; do
-        read -p "1 还是 2? " version
-        case "$version" in
-        1)
-            version="12.0.0-latest"
-            break
-            ;;
-        2)
-            version="13.0.0-latest"
-            break
-            ;;
-        *)
-            echo "输入无效，请输入 1 或 2。"
-            continue
-            ;;
-        esac
-    done
-    sudo docker pull cnflysky/redroid-rk3588:$version
 }
 
 install_docker() {
-    while true; do
-        echo "看起来你没有 Docker."
-        read -p "要咱给你装上 Docker 吗?(y/n) " answer
-        case "$answer" in
-        y | Y | yes)
-            sudo apt-get update
-            sudo apt-get install -y docker.io
-            echo "装好辣!"
-            break
-            ;;
-        n | N | no | q)
-            echo "如你所愿."
-            exit 1
-            ;;
-        *)
-            echo "无效，请输入 y 或 n."
-            ;;
-        esac
-    done
+    sudo apt-get update
+    sudo apt-get install docker.io docker-compose -y
 }
 
-clone_repository
-check_docker
-echo "咱看看你本地有没有这个镜像..."
-echo "有可能让你输入密码, 之类的."
-sudo docker images | grep "redroid-rk3588" >/dev/null 2>&1
-if [ $? -eq 0 ]; then
-    image_count=$(sudo docker images | grep "redroid-rk3588" | wc -l)
-    if [ $image_count -ge 2 ]; then
-        echo "你本地有两个或更多的 redroid-rk3588 镜像. 咱脚本能力有限, 只能到这了, 告辞."
-    else
-        full_image_name=$(sudo docker images | grep "redroid-rk3588" | awk '{print $1":"$2}' | head -n 1)
-        container_id=$(docker ps -a | grep "$full_image_name" | awk '{print $1}')
-        if [ -n "$full_image_name" ]; then
-            echo "看起来你有这个镜像, 咱找到的完整镜像名为: $full_image_name"
-            sudo docker ps -a | grep "redroid" >/dev/null 2>&1
-            if [ $? -eq 0 ]; then
-                while true; do
-                    read -p "咱看到已经有个 redroid 容器了, 是遇到什么问题无法运行吗?(y/n) " answer
-                    case "$answer" in
-                    y | Y | yes)
-                        echo "咱帮你看看哈."
-                        diagnose_container
-                        ;;
-                    n | N | no | q)
-                        echo "拿咱寻开心?"
-                        exit 1
-                        ;;
-                    *)
-                        echo "无效，请输入 y 或 n."
-                        ;;
-                    esac
-                done
-            fi
-            start_container
-        else
-            echo "脚本好像走丢了."
-        fi
+main(){
+    color_echo $GREEN "========================================"
+    color_echo $YELLOW "redroid-rk3588 quick start script, version $VERSION"
+    # [ `whoami` != root ] && color_echo $RED "This script requires root privilege, try again with sudo..." && exit 1
+	check_env
+	print_summary
+    if [ -n "$DOCKER_NOT_INSTALLED" ]
+    then
+        color_echo $YELLOW "Would you like to install docker.io on your system? (Y/n)"
+        read answer
+        case "$answer" in
+        y | Y | yes)
+            install_docker
+            break
+            ;;
+        *)
+            echo "Cancelled."
+            exit 1
+            ;;
+        esac
     fi
-else
-    pull_image
-    start_container
-fi
+
+    if [ -z "$DOCKER_NOT_INSTALLED" ] && [ -n "$MALI_CSF_FW_GIT_SHA_MISMATCH" ] || [ -n "$MALI_CSF_FW_MISSING" ]
+    then
+        color_echo $YELLOW "Would you like to install Mali CSF Firmware on your system? (Y/n)"
+        read answer
+        case "$answer" in
+        y | Y | yes)
+            install_mali_csf_fw
+            break
+            ;;
+        *)
+            echo "Cancelled."
+            exit 1
+            ;;
+        esac
+    fi
+
+    color_echo $YELLOW "Would you like to run redroid 12 now? (Y/n)"
+        read answer
+        case "$answer" in
+        y | Y | yes)
+            dpkg -s docker.io > /dev/null 2>&1 && dpkg -s docker-compose > /dev/null 2>&1 || sudo apt-get install docker-compose -y
+            dpkg -s docker.io > /dev/null 2>&1 && sudo docker-compose up -d || sudo docker compose up -d
+            break
+            ;;
+        *)
+            echo "Cancelled."
+            exit 1
+            ;;
+        esac
+}
+
+main "$@"
 
 exit 0
