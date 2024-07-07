@@ -31,12 +31,20 @@ sudo docker restart redroid
 ```bash
 git clone https://github.com/CNflysky/redroid-rk3588.git --depth 1
 cd redroid-rk3588
+# 该脚本会检查你的运行环境是否正常，(可选)并且执行一些简单的修复措施.
+./quickstart.sh
+
+# 或者你也可以自己运行:
 # 如果你使用docker-ce:
 docker compose up -d
-# 或者是docker.io: 
+# docker.io: 
 sudo apt install docker-compose
 docker-compose up -d
 ```
+
+欲切换版本，请编辑`docker-compose.yml`文件，修改`image`后的`tag`，随后`docker-compose down && docker-compose up -d`即可。  
+**注意**: 不同版本(`Android 12`/`Android 13`)的`data`目录不能兼容，切换版本前请先备份重要数据或是修改映射目录。
+
 手动运行：
 ```bash
 docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
@@ -55,6 +63,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 | `androidboot.redroid_virt_wifi=1` | 启用虚拟 WiFi (已废弃) |
 
 # 虚拟WiFi
+**注意**: 不推荐使用该功能。  
 如果你想要使用`虚拟WiFi`功能:
 - `mac80211_hwsim`，见下节
 - 在宿主机上切换到 `iptables-legacy`

@@ -32,12 +32,20 @@ sudo docker restart redroid
 ```bash
 git clone https://github.com/CNflysky/redroid-rk3588.git --depth 1
 cd redroid-rk3588
+# This script will check your system environment，(optional) and can do some little fix.
+./quickstart.sh
+
+# or you can run it like this: 
 # if you use docker-ce
 docker compose up -d
 # or docker.io:
 sudo apt install docker-compose -y
 docker-compose up -d
 ```
+
+To switch between diffierent Android versions, change `docker-compose.yml` -> `image` -> `tag`.  
+**Notice**: You can NOT share `data` partition from diffierent Android versions, so please **BACKUP YOUR DATA FIRST** or change volume before you switch to another version.  
+
 manual:
 ```bash
 docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
@@ -55,6 +63,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 | `androidboot.redroid_virt_wifi=1` | enable virtual WiFi (deprecated) |
 
 # Virtual WiFi
+**Notice**: Use of this feature is not recommended.  
 If you wish use `Virtual WiFi`:
 - `mac80211_hwsim`, see below
 - switch to `iptables-legacy` in your host os
