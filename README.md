@@ -9,7 +9,8 @@
 - `Gapps`  
 - `Magisk(Kitsune fork)` 
 - Hacked `surfaceflinger` so can type password in apps without black screen
-- `Virtual WiFi` support
+- `Fake WiFi` support (let apps believe WiFi is connected)
+- `Virtual WiFi` support(buggy, deprecated)
 - `Via` Browser installed
 
 ## Prerequisites
@@ -23,11 +24,6 @@ dmesg | grep DDK
 sudo docker cp redroid:/vendor/etc/firmware/mali_csffw.bin /lib/firmware/
 sudo docker restart redroid
 ```
-
-If you wish use `Virtual WiFi`:
-- `mac80211_hwsim`, see below
-- switch to `iptables-legacy` in your host os
-- ...or load `iptable_nat` module: `sudo modprobe iptable_nat`
 
 ## Run
 ```bash
@@ -43,8 +39,25 @@ manual:
 ```bash
 docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
+## Arguments
+| Argument | Description | 
+| --- | --- |
+| `androidboot.redroid_magisk=1` | enable magisk |
+| `androidboot.redroid_fake_wifi=1` | enable fake WiFi |
+| `androidboot.redroid_fake_wifi_ssid=FakeWiFi` | set fake WiFi ssid |
+| `androidboot.redroid_fake_wifi_bssid=66:55:44:33:22:11` | set fake WiFi
+bssid |
+| `androidboot.redroid_fake_wifi_mac=11:22:33:44:55:66` | set fake WiFi 
+mac address |
+| `androidboot.redroid_fake_wifi_speed=866` | set fake WiFi speed(Mbps) |
+| `androidboot.redroid_virt_wifi=1` | enable virtual WiFi |
 
-# Build mac80211_hwsim
+# Virtual WiFi
+If you wish use `Virtual WiFi`:
+- `mac80211_hwsim`, see below
+- switch to `iptables-legacy` in your host os
+- ...or load `iptable_nat` module: `sudo modprobe iptable_nat`
+
 If your kernel lacks mac80211_hwsim module, you can build it by following steps:  
 ```bash
 # armbian user only！
@@ -57,12 +70,6 @@ echo "mac80211_hwsim" | sudo tee /etc/modules-load.d/redroid.conf
 
 # reboot your board.
 ```
-
-## Arguments
-| Argument | Description | 
-| --- | --- |
-| `androidboot.redroid_virt_wifi=1` | enable virtual WiFi |
-| `androidboot.redroid_magisk=1` | enable magisk |
 
 ## Extra Info
 Tested on `Orange Pi 5 Plus w/16G RAM`, OS `Armbian server` (`Debian 12 "Bookworm"`) with `5.10.160` kernel (customzied), docker version 20.10.24(`docker.io`).

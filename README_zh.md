@@ -10,7 +10,8 @@
 - `Gapps`  
 - `Magisk(Kitsune 版)` 
 - 去除`surfaceflinger`限制，可在app中输入密码（不会黑屏）  
-- `虚拟 WiFi`
+- `虚假 WiFi` (使app认为WiFi已连接)
+- `虚拟 WiFi` (有bug，已弃用)
 - 预装`Via`浏览器
 
 ## 前提条件
@@ -23,11 +24,6 @@ dmesg | grep DDK
 sudo docker cp redroid:/vendor/etc/firmware/mali_csffw.bin /lib/firmware/
 sudo docker restart redroid
 ```  
-
-如果你想要使用`虚拟WiFi`功能:
-- `mac80211_hwsim`，见下节
-- 在宿主机上切换到 `iptables-legacy`
-- ...或是加载 `iptable_nat` 模块: `sudo modprobe iptable_nat`
 
 ## 运行
 ```bash
@@ -47,10 +43,21 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 ## 参数
 | 参数 | 描述 | 
 | --- | --- |
-| `androidboot.redroid_virt_wifi=1` | 启用虚拟WiFi |
 | `androidboot.redroid_magisk=1` | 启用Magisk |
+| `androidboot.redroid_magisk=1` | 启用 Magisk |
+| `androidboot.redroid_fake_wifi=1` | 启用虚假 WiFi |
+| `androidboot.redroid_fake_wifi_ssid=FakeWiFi` | 设置虚假 WiFi ssid |
+| `androidboot.redroid_fake_wifi_bssid=66:55:44:33:22:11` | 设置虚假 WiFi bssid |
+| `androidboot.redroid_fake_wifi_mac=11:22:33:44:55:66` | 设置虚假 WiFi mac 地址|
+| `androidboot.redroid_fake_wifi_speed=866` | 设置虚假 WiFi 速度(Mbps) |
+| `androidboot.redroid_virt_wifi=1` | 启用虚拟 WiFi (已废弃) |
 
-# 构建 mac80211_hwsim
+# 虚拟WiFi
+如果你想要使用`虚拟WiFi`功能:
+- `mac80211_hwsim`，见下节
+- 在宿主机上切换到 `iptables-legacy`
+- ...或是加载 `iptable_nat` 模块: `sudo modprobe iptable_nat`
+
 如果你的内核没有mac80211_hwsim模块支持，你可以通过以下方式来构建该模块：
 ```bash
 # 仅armbian用户
@@ -63,7 +70,6 @@ echo "mac80211_hwsim" | sudo tee /etc/modules-load.d/redroid.conf
 
 # 重启你的板子
 ```
-
 
 ## 额外信息
 测试环境： `Orange Pi 5 Plus w/16G RAM`, 运行 `Armbian 服务器版`(`Debian 12 "Bookworm"`) ，内核版本 `5.10.160` (自定义内核)，docker版本`20.10.24`(`docker.io`).  
