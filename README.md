@@ -52,7 +52,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 | `androidboot.redroid_fake_wifi_bssid=66:55:44:33:22:11` | set fake WiFi bssid |
 | `androidboot.redroid_fake_wifi_mac=11:22:33:44:55:66` | set fake WiFi mac address |
 | `androidboot.redroid_fake_wifi_speed=866` | set fake WiFi speed(Mbps) |
-| `androidboot.redroid_virt_wifi=1` | enable virtual WiFi |
+| `androidboot.redroid_virt_wifi=1` | enable virtual WiFi (deprecated) |
 
 # Virtual WiFi
 If you wish use `Virtual WiFi`:
