@@ -19,7 +19,7 @@
 ## 前提条件
 确保你的内核版本为`5.10.160`，`mali ddk`版本为`g18p0`。
 ```bash
-dmesg | grep DDK
+cat /sys/module/bifrost_kbase/version
 ```
 本镜像需要`mali_csffw.bin`文件才能运行，将其放置于宿主机的`/lib/firmware`下:
 ```bash
@@ -50,7 +50,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 | `androidboot.redroid_fake_wifi=1` | 启用虚假 WiFi |
 | `androidboot.redroid_fake_wifi_ssid=FakeWiFi` | 设置虚假 WiFi ssid |
 | `androidboot.redroid_fake_wifi_bssid=66:55:44:33:22:11` | 设置虚假 WiFi bssid |
-| `androidboot.redroid_fake_wifi_mac=11:22:33:44:55:66` | 设置虚假 WiFi mac 地址|
+| `androidboot.redroid_fake_wifi_mac=11:22:33:44:55:66` | 设置虚假 WiFi mac 地址 |
 | `androidboot.redroid_fake_wifi_speed=866` | 设置虚假 WiFi 速度(Mbps) |
 | `androidboot.redroid_virt_wifi=1` | 启用虚拟 WiFi (已废弃) |
 

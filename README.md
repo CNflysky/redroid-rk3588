@@ -19,7 +19,7 @@
 ## Prerequisites
 make sure your kernel version = `5.10.160` and `mali ddk` version = `g18p0`.
 ```bash
-dmesg | grep DDK
+cat /sys/module/bifrost_kbase/version
 ```
 `mali_csffw.bin` file is required, place it under host's `/lib/firmware`:
 
@@ -49,10 +49,8 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged c
 | `androidboot.redroid_magisk=1` | enable magisk |
 | `androidboot.redroid_fake_wifi=1` | enable fake WiFi |
 | `androidboot.redroid_fake_wifi_ssid=FakeWiFi` | set fake WiFi ssid |
-| `androidboot.redroid_fake_wifi_bssid=66:55:44:33:22:11` | set fake WiFi
-bssid |
-| `androidboot.redroid_fake_wifi_mac=11:22:33:44:55:66` | set fake WiFi 
-mac address |
+| `androidboot.redroid_fake_wifi_bssid=66:55:44:33:22:11` | set fake WiFi bssid |
+| `androidboot.redroid_fake_wifi_mac=11:22:33:44:55:66` | set fake WiFi mac address |
 | `androidboot.redroid_fake_wifi_speed=866` | set fake WiFi speed(Mbps) |
 | `androidboot.redroid_virt_wifi=1` | enable virtual WiFi |
 
