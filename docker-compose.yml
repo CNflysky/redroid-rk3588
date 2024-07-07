@@ -16,8 +16,8 @@ services:
       # uncomment following line to enable magisk
       # - "androidboot.redroid_magisk=1"
 
-      # uncomment following line to enable virtual wifi
-      # - "androidboot.redroid_virt_wifi=1"
+      # uncomment following line to enable fake wifi
+      # - "androidboot.redroid_fake_wifi=1"
 
       # see https://source.android.com/docs/setup/create/new-device PRODUCT_CHARACTERISTICS 
       - "ro.build.characteristics=default"
