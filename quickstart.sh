@@ -167,7 +167,6 @@ main(){
         case "$answer" in
         y | Y | yes)
             install_docker
-            break
             ;;
         *)
             echo "Cancelled."
@@ -183,7 +182,6 @@ main(){
         case "$answer" in
         y | Y | yes)
             install_mali_csf_fw
-            break
             ;;
         *)
             echo "Cancelled."
