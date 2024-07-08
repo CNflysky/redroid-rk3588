@@ -51,16 +51,17 @@ manual:
 docker run -d -p 5555:5555 -v ~/redroid-data:/data --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
 ## Arguments
-| Argument | Description | 
-| --- | --- |
-| `androidboot.redroid_fps=60` | set fps, range (1,120) |
-| `androidboot.redroid_magisk=1` | enable magisk |
-| `androidboot.redroid_fake_wifi=1` | enable fake WiFi |
-| `androidboot.redroid_fake_wifi_ssid=FakeWiFi` | set fake WiFi ssid |
-| `androidboot.redroid_fake_wifi_bssid=66:55:44:33:22:11` | set fake WiFi bssid |
-| `androidboot.redroid_fake_wifi_mac=11:22:33:44:55:66` | set fake WiFi mac address |
-| `androidboot.redroid_fake_wifi_speed=866` | set fake WiFi speed(Mbps) |
-| `androidboot.redroid_virt_wifi=1` | enable virtual WiFi (deprecated) |
+| Argument | Description | Default |
+| --- | --- | --- |
+| `androidboot.redroid_fps` | set fps, range (1,120) | 60 |
+| `androidboot.redroid_magisk` | enable magisk | 0 |
+| `androidboot.redroid_fake_wifi` | enable fake WiFi | 0 |
+| `androidboot.redroid_fake_wifi_ssid` | set fake WiFi ssid | FakeWiFi |
+| `androidboot.redroid_fake_wifi_bssid` | set fake WiFi bssid | 66:55:44:33:22:11 |
+| `androidboot.redroid_fake_wifi_mac` | set fake WiFi mac address | 11:22:33:44:55:66 |
+| `androidboot.redroid_fake_wifi_speed` | set fake WiFi speed(Mbps) | 866 |
+| `androidboot.redroid_virt_wifi` | enable virtual WiFi (deprecated) | 0 |
+| `androidboot.redroid_adbd_bind_eth0` | bind adb socket to eth0 | 1 |
 
 # Virtual WiFi
 **Notice**: Use of this feature is not recommended.  
