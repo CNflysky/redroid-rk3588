@@ -6,15 +6,15 @@
 - `Android 13(13.0.0-latest)`
 
 ## Supported Features
-- `Gapps`  
-- `Magisk(Kitsune fork)` 
-- Hacked `surfaceflinger` so can type password in apps without black screen
+- `Gapps` installed
+- `Magisk(Kitsune fork)` installed
+- `Via` Browser installed
+- `LineageOS Trebuchet` launcher installed
+- `LineageOS Music` installed
+- `LineageOS Gallery` installed
+- `surfaceflinger` patched so can type password in apps without black screen
 - `Fake WiFi` support (let apps believe WiFi is connected)
 - `Virtual WiFi` support(buggy, deprecated)
-- `Via` Browser installed
-- `Lineage Music` installed
-- `Lineage Gallery` installed
-
 
 ## Prerequisites
 make sure your kernel version = `5.10.160` and `mali ddk` version = `g18p0`.
@@ -32,10 +32,10 @@ sudo docker restart redroid
 ```bash
 git clone https://github.com/CNflysky/redroid-rk3588.git --depth 1
 cd redroid-rk3588
-# This script will check your system environment，(optional) and can do some little fix.
+# This script will check your system environment，(optional) and do some simple fix.
 ./quickstart.sh
 
-# or you can run it like this: 
+# or you can run it by this way: 
 # if you use docker-ce
 docker compose up -d
 # or docker.io:
@@ -44,7 +44,7 @@ docker-compose up -d
 ```
 
 To switch between diffierent Android versions, change `docker-compose.yml` -> `image` -> `tag`.  
-**Notice**: You can NOT share `data` partition from diffierent Android versions, so please **BACKUP YOUR DATA FIRST** or change volume before you switch to another version.  
+**Notice**: You can NOT share `data` partition from diffierent Android versions, so please **BACKUP YOUR DATA** or change volume before you switch to another version.  
 
 manual:
 ```bash

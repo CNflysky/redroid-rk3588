@@ -7,14 +7,15 @@
 - `Android 13(13.0.0-latest)`
 
 ## 支持功能
-- `Gapps`  
-- `Magisk(Kitsune 版)` 
-- 去除`surfaceflinger`限制，可在app中输入密码（不会黑屏）  
-- `虚假 WiFi` (使app认为WiFi已连接)
-- `虚拟 WiFi` (有bug，已弃用)
+- 预装`Gapps`  
+- 预装`Magisk(Kitsune 版)` 
 - 预装`Via`浏览器
 - 预装`LineageOS 音乐`
 - 预装`LineageOS 图库`
+- 预装`LineageOS Trebuchet`启动器
+- 去除`surfaceflinger`限制，可在app中输入密码（不会黑屏）  
+- `虚假 WiFi` (使app认为WiFi已连接)
+- `虚拟 WiFi` (有bug，已弃用)
 
 ## 前提条件
 确保你的内核版本为`5.10.160`，`mali ddk`版本为`g18p0`。

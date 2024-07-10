@@ -69,7 +69,7 @@ check_mali_firmware(){
 }
 
 check_kernel_config_location() {
-	if [ -f /proc/config.gz ]
+	if [ -f /proc/config.gz ] && command -v zgrep >/dev/null 2>&1
 	then
 		export CONFIG_PATH=/proc/config.gz
 	elif [ -f /boot/config-`uname -r` ]
