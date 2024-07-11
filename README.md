@@ -103,7 +103,7 @@ Among them, the ` -v ` parameter value `~/redroid data:/data` before the colon `
 
 # ~~Virtual WiFi(deprecated)~~
 
-**Notice: Use of this feature is not recommended. **
+**Notice: Use of this feature is not recommended.**
 
 If you still wish use `Virtual WiFi`:
 
@@ -129,7 +129,7 @@ sudo reboot
 
 ### Google Play Certification
 
-**Notice: This operation can only allow you to use the Google Play Store, but cannot pass the SafetyNet. **
+**Notice: This operation can only allow you to use the Google Play Store, but cannot pass the SafetyNet.**
 
 When launching Redroid conrainer the first time you will be notified that the device is not certified for Google Play Protect. You can follow the instructions on screen to self certify your device: 
 
@@ -152,7 +152,7 @@ sqlite3 /data/user/$(cmd activity get-current-user)/*/*/gservices.db \
 
 For the convenience of users connecting to Redroid, ADB authorization (i.e. "Allow ADB Debugging" authorization window) is disabled by default in our container image. Any device that can connect to the host will be able to access the Redroid container. At the same time, due to Redroid's need to use host GPU hardware acceleration, Android containers attach the privileged mode (--privileged) at startup, but this can lead to malicious privilege escalation attacks under unauthorized access. 
 
-**Therefore, it is strongly recommended that you immediately attach ADB authorization after starting the container normally for the first time to improve security. Especially for users who want to place containers on the public network for remote access. **
+**Therefore, it is strongly recommended that you immediately attach ADB authorization after starting the container normally for the first time to improve security. Especially for users who want to place containers on the public network for remote access.**
 
 The following is the method to enable ADB authorization (requires operation through a PC): 
 
