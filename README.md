@@ -1,4 +1,8 @@
 # Redroid Image For RK3588 with Multiple Features
+Notice: The English version may fall behind the Chinese version, please prioritize reading the Chinese version or wait for updates.
+
+提示：英文版本说明可能落后于中文版本，请优先阅读中文版本或者等待更新。
+
 [Simplified Chinese(简体中文)](./README_zh.md)  
 
 ## Supported Versions
