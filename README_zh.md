@@ -15,7 +15,7 @@
 - 预装`LineageOS Trebuchet`启动器
 - 去除`surfaceflinger`限制，可在App中输入密码（不会因安全限制而黑屏）  
 - `虚假 WiFi` （使App认为WiFi已连接）
-- `虚拟 WiFi` （有Bug，已弃用）
+- ~~`虚拟 WiFi` （有Bug，已弃用）~~
 
 ## 测试环境
 
@@ -24,11 +24,11 @@
 
 ## 前提条件
 
-确保你的内核版本为`5.10`，通过以下命令查询`Mali DDK`版本是否为`g18p0`。
+确保你的内核版本为`5.10`，通过以下命令查询`Mali DDK`版本是否为`g18p0` ：
 ```bash
 cat /sys/module/bifrost_kbase/version
 ```
-本镜像需要`mali_csffw.bin`固件文件才能运行，一些系统默认自带该固件（例如Ubuntu Rockchip）。请检查宿主机是否存在`/usr/lib/firmware/mali_csffw.bin`，若无或通过以上命令查询到的`Mali DDK`版本不为`g18p0`，请[获取合适版本](https://github.com/CNflysky/redroid-rk3588/blob/main/firmware_g610/mali_csffw.bin)并将其放置（或覆盖）于宿主机的`/usr/lib/firmware/`下，然后重启系统：
+本镜像需要 `mali_csffw.bin` 固件文件才能运行，一些系统默认自带该固件（例如[Ubuntu Rockchip](https://joshua-riek.github.io/ubuntu-rockchip-download/)）。请检查宿主机是否存在 `/usr/lib/firmware/mali_csffw.bin` ，若无或通过以上命令查询到的 `Mali DDK` 版本不为 `g18p0` ，请[获取合适版本](https://github.com/CNflysky/redroid-rk3588/blob/main/firmware_g610/mali_csffw.bin)并将其放置（或覆盖）于宿主机的 `/usr/lib/firmware/` 下，然后重启系统：
 ```bash
 wget https://github.com/CNflysky/redroid-rk3588/blob/main/firmware_g610/mali_csffw.bin
 sudo chown root:root mali_csffw.bin
@@ -97,8 +97,8 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 
  如果你仍然想要使用`虚拟WiFi`功能，你需要：
 
-- 如果你的内核没有 `mac80211_hwsim` 模块支持，你需要编译 `mac80211_hwsim` 内核模块，见下节
-- 在宿主机上切换到 `iptables-legacy`（或是加载 `iptable_nat` 模块： `sudo modprobe iptable_nat`）
+- 如果你的内核没有 `mac80211_hwsim` 模块支持，你需要编译 `mac80211_hwsim` 内核模块，见下节。
+- 在宿主机上切换到 `iptables-legacy`（或是加载 `iptable_nat` 模块： `sudo modprobe iptable_nat`）。
 
 你可以通过以下方式来构建该模块：
 ```bash
@@ -135,7 +135,7 @@ sqlite3 /data/user/$(cmd activity get-current-user)/*/*/gservices.db \
     "select * from main where name = \"android_id\";"
 ```
 
-2. 此时你会得到l类似于 `android_id|4525296753567226663` 的字符串，复制`|`后面的数串保留备用。
+2. 此时你会得到类似于 `android_id|4525296753567226663` 的字符串，复制`|`后面的数串保留备用。
 2. 打开[此链接](https://www.google.com/android/uncertified)，登录你的谷歌账号，在网页中填写你刚才复制的数串提交即可。
 2. 等待至少10分钟（多则一天）后重启容器，再次尝试登录谷歌商店，即可正常使用。
 
@@ -149,9 +149,9 @@ sqlite3 /data/user/$(cmd activity get-current-user)/*/*/gservices.db \
 
 1. **首先确保Redroid容器已能成功运行，并可以通过ADB命令和Scrcpy远程投屏连接到容器。**
 
-2. 在PC上查找用户目录下是否存在 `.android` 文件夹（Win用户可以直接在文件资源管理的地址栏输入 `%USERPROFILE%\.android` 并回车，Linux用户查找是否存在隐藏的 `~/.android` 目录），如果有，直接进行第3步；若没有，请先通过 `adb connect`和`adb shell `命令、Scrcpy远程投屏尝试远程访问一次Redroid容器，此时即可在对应的用户目录中自动生成 `.android` 文件夹。
+2. 在PC上查找用户目录下是否存在 `.android` 文件夹（Win用户可以直接在文件资源管理器的地址栏输入 `%USERPROFILE%\.android` 并回车，Linux用户查找是否存在隐藏的 `~/.android` 目录），如果有，直接进行第3步；若没有，请先通过 `adb connect`和`adb shell `命令、Scrcpy远程投屏尝试远程访问一次Redroid容器，此时即可在对应的用户目录中自动生成 `.android` 文件夹。
 
-3. 打开 `.android `文件夹，利用文本编辑器打开 `adbkey.pub `文件，复制文件中的所有内容供下面步骤使用。其内容类似于：
+3. 打开 `.android` 文件夹，利用文本编辑器打开 `adbkey.pub` 文件，复制文件中的所有内容供下面步骤使用。其内容类似于：
 
    ```bash
    QAAAAAvP/Jhd+xuFaJk/5KdV9be7nRLyqWwKvW8FTKadafqrqALiyEQ1jcdGUHTcAGix9WB7XfHQXq/l8WeSCzqsim6WTSZdqf4PnLmrklgfRAkV6sDewAPpEJf7N7hZcpCy+CBsGVngP3gqmEf8aRqj78UadafafKRTaBIxLxyGxt6u4SiujeV0/JwrroNKxONmt8+dlW3+y6K8WTkkr4tDcLYM47Ambv8yYP4QVxYPc8b6Zp1usWFY/sJXM62BbPqgIznO7eWj6afafC7tcn9ErcRsvSyU+KKNMspMTzWHKrtZ8loR6IdUME9TJZ8JicDdh1xZ/rbvi8t5Z5pumtEYpxbeuPyBWvwRFbiFYcp00HAht0bcV4i1OUAnB1T6Bwafa4etd3bEnXQUggLjEkRiSS/rYSM0mKzhc9FiowIkQK5wkh1IlP5dZ6eCQsJgH/vArmYFLKZc1I6h7oJixkCm6f1bUNeVSioPBYWiBrjxX3BZsE0jb31A3hXRNo9qNOwqzGL7ND1m1a/LQrQdpYAEAAQA= ASUS@LAPTOP-5TNUYI14
@@ -159,7 +159,7 @@ sqlite3 /data/user/$(cmd activity get-current-user)/*/*/gservices.db \
 
 4. 通过图形化桌面或者SSH登录连接到Redroid所在的宿主机，进入“运行”步骤中你在`-v`参数后所设定的Redroid容器内用户数据分区的映射目录，再依次进入其中 `misc` 目录下的 `adb` 目录。
 
-5. 在该目录下，新建一个名为 `adb_keys` 的无后缀文件，通过文本编辑器编辑，将第三步中复制的内容粘贴进改文件并保存。
+5. 在该目录下，新建一个名为 `adb_keys` 的无后缀文件，通过文本编辑器编辑，将第三步中复制的内容粘贴进该文件并保存。
 
 6. 修改该文件的属组属主和权限掩码以供容器能正常识别到：
 
