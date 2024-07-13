@@ -14,8 +14,6 @@
 - 预装`LineageOS 图库`
 - 预装`LineageOS Trebuchet`启动器
 - 去除`surfaceflinger`限制，可在App中输入密码（不会因安全限制而黑屏）  
-- `虚假 WiFi` （使App认为WiFi已连接）
-- ~~`虚拟 WiFi` （有Bug，已弃用）~~
 
 ## 测试环境
 
@@ -80,40 +78,10 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 | --- | --- | --- |
 | `androidboot.redroid_fps` | 设置刷新率, 取值范围 (1,120) | 60 |
 | `androidboot.redroid_magisk` | 是否启用 Magisk | 0 |
-| `androidboot.redroid_fake_wifi` | 是否启用虚假 WiFi | 0 |
-| `androidboot.redroid_fake_wifi_ssid` | 设置虚假 WiFi SSID | FakeWiFi |
-| `androidboot.redroid_fake_wifi_bssid` | 设置虚假 WiFi BSSID | 66:55:44:33:22:11 |
-| `androidboot.redroid_fake_wifi_mac` | 设置虚假 WiFi MAC 地址 | 11:22:33:44:55:66 |
-| `androidboot.redroid_fake_wifi_speed` | 设置虚假 WiFi 速度(Mbps) | 866 |
-| `androidboot.redroid_virt_wifi` | 是否启用虚拟 WiFi (已废弃) | 0 |
 | `androidboot.redroid_adbd_bind_eth0` | 是否绑定ADB Socket到eth0上 | 1 |
 | `ro.adb.secure` | 是否启用ADB调试授权认证 | 0 |
 
 （0代表不启用，1代表启用，不添加某参数即代表生效该参数的默认值）
-
-## ~~虚拟WiFi（已弃用）~~
-
-**注意**: **不推荐使用该功能。**
-
- 如果你仍然想要使用`虚拟WiFi`功能，你需要：
-
-- 如果你的内核没有 `mac80211_hwsim` 模块支持，你需要编译 `mac80211_hwsim` 内核模块，见下节。
-- 在宿主机上切换到 `iptables-legacy`（或是加载 `iptable_nat` 模块： `sudo modprobe iptable_nat`）。
-
-你可以通过以下方式来构建该模块：
-```bash
-# 仅Armbian通过测试
-# 首先确保已经克隆本项目到本地
-sudo apt install linux-headers-legacy-rk35xx
-cd mac80211_hwsim
-make
-sudo cp mac80211_hwsim.ko /lib/modules/`uname -r`/kernel/drivers/net/wireless
-sudo depmod
-echo "mac80211_hwsim" | sudo tee /etc/modules-load.d/redroid.conf
-
-# 重启你的开发板
-sudo reboot
-```
 
 ## 可选操作
 

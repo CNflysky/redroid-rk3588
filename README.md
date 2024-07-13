@@ -17,8 +17,6 @@ Notice: The English version may fall behind the Chinese version, please prioriti
 - `LineageOS Music` preinstalled
 - `LineageOS Gallery` preinstalled
 - `surfaceflinger` patched so can type password in apps without black screen
-- `Fake WiFi` support (let apps believe WiFi is connected)
-- ~~`Virtual WiFi` support(buggy, deprecated)~~
 
 ## Tested Environment
 
@@ -90,40 +88,10 @@ Among them, the ` -v ` parameter value `~/redroid data:/data` before the colon `
 | --- | --- | --- |
 | `androidboot.redroid_fps` | set fps, range (1,120) | 60 |
 | `androidboot.redroid_magisk` | enable magisk | 0 |
-| `androidboot.redroid_fake_wifi` | enable fake WiFi | 0 |
-| `androidboot.redroid_fake_wifi_ssid` | set fake WiFi ssid | FakeWiFi |
-| `androidboot.redroid_fake_wifi_bssid` | set fake WiFi bssid | 66:55:44:33:22:11 |
-| `androidboot.redroid_fake_wifi_mac` | set fake WiFi mac address | 11:22:33:44:55:66 |
-| `androidboot.redroid_fake_wifi_speed` | set fake WiFi speed(Mbps) | 866 |
-| `androidboot.redroid_virt_wifi` | enable virtual WiFi (deprecated) | 0 |
 | `androidboot.redroid_adbd_bind_eth0` | bind adb socket to eth0 | 1 |
 | `ro.adb.secure` | enable ADB debugging authorization | 0 |
 
 (0 means not enabled, 1 means enabled, not adding a parameter means the default value of that parameter is effective.)
-
-# ~~Virtual WiFi(deprecated)~~
-
-**Notice: Use of this feature is not recommended.**
-
-If you still wish use `Virtual WiFi`:
-
-- If your kernel does not support the `mac80211_ hwsim` module, you need to compile the `mac80211_ hwsim` kernel module, as shown in the next section. 
-- switch to `iptables-legacy` in your host OS (or load `iptable_nat` module: `sudo modprobe iptable_nat`). 
-
-You can build this module in the following ways: 
-```bash
-# Armbian user only
-# Ensure that the project has been cloned locally
-sudo apt install linux-headers-legacy-rk35xx
-cd mac80211_hwsim
-make
-sudo cp mac80211_hwsim.ko /lib/modules/`uname -r`/kernel/drivers/net/wireless
-sudo depmod
-echo "mac80211_hwsim" | sudo tee /etc/modules-load.d/redroid.conf
-
-# Reboot your board.
-sudo reboot
-```
 
 ## Optional
 
