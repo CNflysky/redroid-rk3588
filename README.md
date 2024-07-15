@@ -18,7 +18,6 @@ Notice: The English version may fall behind the Chinese version, please prioriti
 - `LineageOS Gallery` preinstalled
 - `surfaceflinger` patched so can type password in apps without black screen
 - `Fake WiFi` support (let apps believe WiFi is connected)
-- ~~`Virtual WiFi` support(buggy, deprecated)~~
 
 ## Tested Environment
 
@@ -95,7 +94,6 @@ Among them, the ` -v ` parameter value `~/redroid data:/data` before the colon `
 | `androidboot.redroid_fake_wifi_bssid` | set fake WiFi bssid | 66:55:44:33:22:11 |
 | `androidboot.redroid_fake_wifi_mac` | set fake WiFi mac address | 11:22:33:44:55:66 |
 | `androidboot.redroid_fake_wifi_speed` | set fake WiFi speed(Mbps) | 866 |
-| `androidboot.redroid_virt_wifi` | enable virtual WiFi (deprecated) | 0 |
 | `androidboot.redroid_adbd_bind_eth0` | bind adb socket to eth0 | 1 |
 | `ro.adb.secure` | enable ADB debugging authorization | 0 |
 

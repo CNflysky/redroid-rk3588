@@ -15,7 +15,6 @@
 - 预装`LineageOS Trebuchet`启动器
 - 去除`surfaceflinger`限制，可在App中输入密码（不会因安全限制而黑屏）  
 - `虚假 WiFi` （使App认为WiFi已连接）
-- ~~`虚拟 WiFi` （有Bug，已弃用）~~
 
 ## 测试环境
 
@@ -85,7 +84,6 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 | `androidboot.redroid_fake_wifi_bssid` | 设置虚假 WiFi BSSID | 66:55:44:33:22:11 |
 | `androidboot.redroid_fake_wifi_mac` | 设置虚假 WiFi MAC 地址 | 11:22:33:44:55:66 |
 | `androidboot.redroid_fake_wifi_speed` | 设置虚假 WiFi 速度(Mbps) | 866 |
-| `androidboot.redroid_virt_wifi` | 是否启用虚拟 WiFi (已废弃) | 0 |
 | `androidboot.redroid_adbd_bind_eth0` | 是否绑定ADB Socket到eth0上 | 1 |
 | `ro.adb.secure` | 是否启用ADB调试授权认证 | 0 |
 
