@@ -79,7 +79,8 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 
 ## Documentation
 [Google Play Certification](https://github.com/CNflysky/redroid-rk3588/wiki/en:-Google-Play-Certification)  
-[Enable ADB authentication](https://github.com/CNflysky/redroid-rk3588/wiki/en:-Enable-ADB-authentication)
+[Enable ADB authentication](https://github.com/CNflysky/redroid-rk3588/wiki/en:-Enable-ADB-authentication)  
+[App compatibility list](https://github.com/CNflysky/redroid-rk3588/discussions/8)
 
 ## Screenshots
 

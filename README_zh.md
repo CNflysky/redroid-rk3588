@@ -79,7 +79,8 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 
 ## 文档
 [Google Play保护机制认证](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-Google-Play%E4%BF%9D%E6%8A%A4%E6%9C%BA%E5%88%B6%E8%AE%A4%E8%AF%81)  
-[启用ADB授权](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-%E5%90%AF%E7%94%A8ADB%E6%8E%88%E6%9D%83)
+[启用ADB授权](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-%E5%90%AF%E7%94%A8ADB%E6%8E%88%E6%9D%83)  
+[App兼容列表](https://github.com/CNflysky/redroid-rk3588/discussions/8)
 
 ## 截图展示
 
