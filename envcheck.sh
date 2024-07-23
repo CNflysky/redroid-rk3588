@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-export VERSION=0.1
+export VERSION=0.2
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -17,21 +17,12 @@ color_echo() {
 }
 
 check_kernel_version() {
-    if grep -q "5.10.160" /proc/version > /dev/null 2>&1
+    if grep -q "5.10" /proc/version > /dev/null 2>&1
     then
 	color_echo $GREEN $"Kernel version: `uname -r`"
     else
         color_echo $RED "Kernel version mismatch: `uname -r`"
         export KERNEL_VERSION_MISMATCH=1
-    fi
-}
-
-check_docker() {
-    if command -v docker >/dev/null 2>&1; then
-        color_echo $GREEN "Docker installed."
-    else
-        color_echo $YELLOW "Docker not installed."
-	export DOCKER_NOT_INSTALLED=1
     fi
 }
 
@@ -133,84 +124,25 @@ check_env(){
     color_echo $GREEN "========================================"
     color_echo $YELLOW "checking binderfs..."
     check_binderfs
-    color_echo $GREEN "========================================"
-    color_echo $YELLOW "checking docker..."
-    check_docker
 }
 
 print_summary() {
     color_echo $GREEN "========================================"
     color_echo $YELLOW Summary
-    [ -n "$KERNEL_VERSION_MISMATCH" ] && color_echo $RED "FATAL: Kernel version mismatch" && export FATAL=1
+    [ -n "$KERNEL_VERSION_MISMATCH" ] && color_echo $RED "FATAL: Kernel version mismatch!" && export FATAL=1
     [ -n "$MALI_KERNEL_DRIVER_MISSING" ] && color_echo $RED "FATAL: Mali kernel driver missing" && export FATAL=1
     [ -n "$MALI_DDK_VER_MISMATCH" ] && color_echo $RED "FATAL: Mali DDK version mismatch" && export FATAL=1
     [ -n "$BINDERFS_MISSING" ] && color_echo $RED "FATAL: CONFIG_ANDROID_BINDERFS is not enabled in your kernel" && export FATAL=1
     [ -n "$PSI_MISSING" ] && color_echo $RED "FATAL: CONFIG_PSI is not enabled in your kernel" && export FATAL=1
-    [ -n "$VA_MISSING" ] && color_echo $YELLOW "WARN: CONFIG_ARM64_VA_BITS does not match the recommended value. Potential crash ahead!"
+    [ -n "$VA_MISSING" ] && color_echo $YELLOW "WARN: CONFIG_ARM64_VA_BITS is not 39. Some apps may crash. "
     [ -n "$FATAL" ] && color_echo $RED "FATAL: At least one of those mandatory kernel features are not met. You must install another kernel or compile kernel by yourself." && exit 1 || color_echo $GREEN "All mandatory features are met."
-}
-
-install_mali_csf_fw() {
-    sudo docker run -d --rm --name redroid-temp --privileged cnflysky/redroid-rk3588:12.0.0-latest
-    sudo docker cp redroid-temp:/vendor/etc/firmware/mali_csffw.bin /lib/firmware/
-    sudo docker stop redroid-temp -t 0
-    check_mali_firmware
-}
-
-install_docker() {
-    sudo apt-get update
-    sudo apt-get install docker.io docker-compose -y
 }
 
 main(){
     color_echo $GREEN "========================================"
-    color_echo $YELLOW "redroid-rk3588 quick start script, version $VERSION"
-    # [ `whoami` != root ] && color_echo $RED "This script requires root privilege, try again with sudo..." && exit 1
+    color_echo $YELLOW "redroid-rk3588 environment check script, version $VERSION"
 	check_env
 	print_summary
-    if [ -n "$DOCKER_NOT_INSTALLED" ]
-    then
-        color_echo $YELLOW "Would you like to install docker.io on your system? (Y/n)"
-        read answer
-        case "$answer" in
-        y | Y | yes)
-            install_docker
-            ;;
-        *)
-            echo "Cancelled."
-            exit 1
-            ;;
-        esac
-    fi
-
-    if [ -z "$DOCKER_NOT_INSTALLED" ] && [ -n "$MALI_CSF_FW_GIT_SHA_MISMATCH" ] || [ -n "$MALI_CSF_FW_MISSING" ]
-    then
-        color_echo $YELLOW "Would you like to install Mali CSF Firmware on your system? (Y/n)"
-        read answer
-        case "$answer" in
-        y | Y | yes)
-            install_mali_csf_fw
-            ;;
-        *)
-            echo "Cancelled."
-            exit 1
-            ;;
-        esac
-    fi
-
-    color_echo $YELLOW "Would you like to run redroid 12 now? (Y/n)"
-        read answer
-        case "$answer" in
-        y | Y | yes)
-            dpkg -s docker.io > /dev/null 2>&1 && dpkg -s docker-compose > /dev/null 2>&1 || sudo apt-get install docker-compose -y
-            dpkg -s docker.io > /dev/null 2>&1 && sudo docker-compose up -d || sudo docker compose up -d
-            break
-            ;;
-        *)
-            echo "Cancelled."
-            exit 1
-            ;;
-        esac
 }
 
 main "$@"
