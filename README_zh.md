@@ -7,8 +7,9 @@
 - `Android 13(13.0.0-latest)`
 
 ## 支持功能
+- `GPU` (Mali-G610) 硬件加速 (软件渲染不可用)
 - 预装`Gapps`  
-- 预装`Magisk Kitsune版`（部分工作） 
+- 预装`Magisk Kitsune版`
 - 预装`Via`浏览器
 - 预装`LineageOS 音乐`
 - 预装`LineageOS 图库`
@@ -16,7 +17,7 @@
 - 去除`surfaceflinger`限制，可在App中输入密码（不会因安全限制而黑屏）  
 - `虚假 WiFi` （使App认为WiFi已连接）
 
-## 测试环境
+## 测试设备
 
 - `Orange Pi 5 Plus w/16G RAM` ，运行 `Armbian 服务器版`（`Debian 12 "Bookworm"`） ，内核版本 `5.10.160` （自定义内核），Docker版本`20.10.24`（`docker.io`）。 
 - `Orange Pi 5 Plus w/16G RAM` ，运行 `Ubuntu Rockchip`（`Ubuntu 22.04 "Jammy" Gnome 桌面`) ，内核版本 `5.10.0-1009-rockchip` （默认自带内核），Docker版本`27.0.3`（`docker-ce`）。
@@ -24,15 +25,15 @@
 
 ## 系统要求
 - 内核版本 `5.10`
-- Mali CSF 内核驱动 `g18p0`
+- Mali CSF 内核驱动版本 `g18p0`
 - Mali 固件，置于`/lib/firmware/`下
 - `CONFIG_PSI=y`
 - `CONFIG_ANDROID_BINDERFS=y`  
-提示: 你可以运行`envcheck.sh`来检查。
+你可以运行`envcheck.sh`来检查这些要求。
 
 
 ## 运行
-### Docker Compose：
+### 使用docker-compose：
 
 #### 克隆项目：
 
@@ -41,18 +42,18 @@ git clone https://github.com/CNflysky/redroid-rk3588.git --depth 1
 cd redroid-rk3588
 ```
 
-##### 如果你使用docker-ce：
+##### 使用docker-ce：
 ```bash
 docker compose up -d
 ```
-##### 如果你使用docker.io：
+##### 使用docker.io：
 ```bash
 sudo apt install docker-compose
 docker-compose up -d
 ```
 
 欲切换版本，请编辑 `docker-compose.yml` 文件，修改 `image` 后的 `tag` ，随后 `docker-compose down && docker-compose up -d` 即可。  
-**注意**: 不同版本（`Android 12`/`Android 13`）的`data`目录不能兼容，切换版本前请先备份重要数据或是修改安卓容器内用户数据分区的映射目录。
+**注意**: 不同版本（`Android 12`/`Android 13`）的`data`目录不能兼容，切换版本前请先备份重要数据或修改安卓容器内用户数据分区的映射目录。
 
 ### 手动运行：
 ```bash
@@ -75,7 +76,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 | `androidboot.redroid_adbd_bind_eth0` | 是否绑定ADB Socket到eth0上 | 1 |
 | `ro.adb.secure` | 是否启用ADB调试授权认证 | 0 |
 
-（0代表不启用，1代表启用，不添加某参数即代表生效该参数的默认值）
+（0代表不启用，1代表启用，留空则应用默认值）
 
 ## 文档
 [Google Play保护机制认证](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-Google-Play%E4%BF%9D%E6%8A%A4%E6%9C%BA%E5%88%B6%E8%AE%A4%E8%AF%81)  
