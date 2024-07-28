@@ -6,16 +6,17 @@
 - `Android 13(13.0.0-latest)`
 
 ## Supported Features
-- `Gapps` preinstalled
-- `Magisk Kitsune fork` preinstalled (partial working)
-- `Via` Browser preinstalled
-- `LineageOS Trebuchet` launcher preinstalled
-- `LineageOS Music` preinstalled
-- `LineageOS Gallery` preinstalled
+- `GPU` (Mali-G610) accelerated (SW render not available)
+- `Gapps`
+- `Magisk (Kitsune fork)`
+- `Via` Browser
+- `LineageOS Trebuchet` launcher
+- `LineageOS Music
+- `LineageOS Gallery
 - `surfaceflinger` patched so can type password in apps without black screen
-- `Fake WiFi` support (let apps believe WiFi is connected)
+- `Fake WiFi` (let apps believe WiFi is connected)
 
-## Tested Environment
+## Tested Devices
 
 - `Orange Pi 5 Plus w/16G RAM`, OS `Armbian Server` (`Debian 12 "Bookworm"`) with `5.10.160` kernel (Customzied), Docker version 20.10.24(`docker.io`).
 - `Orange Pi 5 Plus w/16G RAM`, OS `Ubuntu Rockchip` (`Ubuntu 22.04 "Jammy" Gnome Desktop`) with `5.10.0-1009-rockchip` kernel (Stock), Docker version 27.0.3(`docker-ce`).
@@ -23,37 +24,37 @@
 
 ## Prerequisites
 - Kernel version `5.10`
-- Mali CSF Kernel driver `g18p0`
-- Mali Firmware in `/lib/firmware/`
+- Mali CSF GPU driver version `g18p0`
+- Mali CSF Firmware in `/lib/firmware/`
 - `CONFIG_PSI=y`
 - `CONFIG_ANDROID_BINDERFS=y`  
-Tips: you can run `envcheck.sh` script to check them.
+You can run `envcheck.sh` script to check them.
 
 ## Run
-### Docker Compose: 
+### Using docker compose: 
 
-#### Clone this project: 
+#### Clone this repo: 
 
 ```bash
 git clone https://github.com/CNflysky/redroid-rk3588.git --depth 1
 cd redroid-rk3588
 ```
 
-##### docker-ce: 
+##### For docker-ce: 
 
 ```bash
 docker compose up -d
 ```
 
-##### docker.io: 
+##### For docker.io: 
 
 ```bash
 sudo apt install docker-compose
 docker-compose up -d
 ```
 
-To switch Android versions, edit the `docker-compose.yml` file, change image `tag` , then restart.  
-**Note: The /data partition between different Android versions are not compatible. Before switching versions, please backup important data or change mapping volume of /data partition.**
+To switch between Android versions, edit the `docker-compose.yml` file, change image `tag` , then recreate service.  
+**Note: The /data partitions between different Android versions are not compatible. Before switching to another Android version, please backup critical data or change mapping volume of /data partition.**
 
 ### Manual: 
 
@@ -75,7 +76,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 | `androidboot.redroid_adbd_bind_eth0` | bind adb socket to eth0 | 1 |
 | `ro.adb.secure` | enable ADB authentication | 0 |
 
-(0 for disabled, 1 for enabled, empty means the default value of that argument is set.)
+(0 = disable, 1 = enable)
 
 ## Documentation
 [Google Play Certification](https://github.com/CNflysky/redroid-rk3588/wiki/en:-Google-Play-Certification)  
