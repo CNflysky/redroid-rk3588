@@ -11,8 +11,8 @@
 - `Magisk (Kitsune fork)`
 - `Via` Browser
 - `LineageOS Trebuchet` launcher
-- `LineageOS Music
-- `LineageOS Gallery
+- `LineageOS Music`
+- `LineageOS Gallery`
 - `surfaceflinger` patched so can type password in apps without black screen
 - `Fake WiFi` (let apps believe WiFi is connected)
 
