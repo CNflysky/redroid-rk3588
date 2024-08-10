@@ -1,6 +1,8 @@
 # 适用于RK3588的Redroid镜像，包含多种功能
 ## 交流群
 企鹅群：712725497
+![qrcode_1723263001150](https://github.com/user-attachments/assets/dee81380-831b-4f61-98d9-42e499a9788d)
+
 
 ## 支持安卓版本
 - `Android 12(12.0.0-latest)`
