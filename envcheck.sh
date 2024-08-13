@@ -1,7 +1,5 @@
 #!/bin/bash
-set -e
-export VERSION=0.2
-
+export SCRIPT_VER=0.2
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
@@ -9,6 +7,8 @@ BLUE='\033[0;34m'
 PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m'
+
+command -v zgrep >/dev/null 2>&1 && export GREP_EXE=zgrep || export GREP_EXE=grep
 
 color_echo() {
     local color=$1
@@ -19,7 +19,7 @@ color_echo() {
 check_kernel_version() {
     if grep -q "5.10" /proc/version > /dev/null 2>&1
     then
-	color_echo $GREEN $"Kernel version: `uname -r`"
+	color_echo $GREEN "Kernel version: `uname -r`"
     else
         color_echo $RED "Kernel version mismatch: `uname -r`"
         export KERNEL_VERSION_MISMATCH=1
@@ -50,11 +50,11 @@ check_mali_firmware(){
 		then
 			color_echo $GREEN "Mali CSF Firmware git_sha: $mali_fw_git_sha"	
 		else
-			color_echo $YELLOW "Mali CSF Firmware git_sha mismatch: $mali_fw_git_sha"
+			color_echo $PURPLE "Mali CSF Firmware git_sha mismatch: $mali_fw_git_sha"
 			export MALI_CSF_FW_GIT_SHA_MISMATCH=1
 		fi
 	else
-		color_echo $YELLOW "Mali CSF Firmware missing."
+		color_echo $PURPLE "Mali CSF Firmware missing."
 		export MALI_CSF_FW_MISSING=1
 	fi
 }
@@ -70,8 +70,8 @@ check_kernel_config_location() {
 	[ -z $CONFIG_PATH ] && color_echo $RED "Kernel config missing" || color_echo $GREEN "Kernel config: $CONFIG_PATH"
 }
 
-check_kernel_config(){
-	if zgrep -q "CONFIG_ANDROID_BINDERFS=y" $CONFIG_PATH > /dev/null 2>&1
+check_kernel_features(){
+	if $GREP_EXE -q "CONFIG_ANDROID_BINDERFS=y" $CONFIG_PATH > /dev/null 2>&1
 	then
 		color_echo $GREEN "CONFIG_ANDROID_BINDERFS=y"
 	else
@@ -79,7 +79,7 @@ check_kernel_config(){
 		export BINDERFS_MISSING=1
 	fi
 
-	if zgrep -q "CONFIG_PSI=y" $CONFIG_PATH > /dev/null 2>&1
+	if $GREP_EXE -q "CONFIG_PSI=y" $CONFIG_PATH > /dev/null 2>&1
 	then
 		color_echo $GREEN "CONFIG_PSI=y"
 	else
@@ -87,11 +87,11 @@ check_kernel_config(){
 		export PSI_MISSING=1
 	fi
 
-	if zgrep -q "CONFIG_ARM64_VA_BITS=39" $CONFIG_PATH > /dev/null 2>&1
+	if $GREP_EXE -q "CONFIG_ARM64_VA_BITS=39" $CONFIG_PATH > /dev/null 2>&1
 	then
  		color_echo $GREEN "CONFIG_ARM64_VA_BITS=39"
 	else
- 		color_echo $YELLOW "CONFIG_ARM64_VA_BITS does not match recommended value."
+ 		color_echo $PURPLE "CONFIG_ARM64_VA_BITS does not match recommended value."
 		export VA_MISSING=1
 	fi
 }
@@ -111,16 +111,16 @@ check_env(){
     check_kernel_version
     color_echo $GREEN "========================================"
     color_echo $YELLOW "checking mali driver version..."
-	check_mali_driver
-	color_echo $GREEN "========================================"
+    check_mali_driver
+    color_echo $GREEN "========================================"
     color_echo $YELLOW "checking mali firmware version..."
-	check_mali_firmware
-	color_echo $GREEN "========================================"
+    check_mali_firmware
+    color_echo $GREEN "========================================"
     color_echo $YELLOW "checking kernel config location..."
-	check_kernel_config_location
-	color_echo $GREEN "========================================"
-    color_echo $YELLOW "checking kernel config..."
-	check_kernel_config
+    check_kernel_config_location
+    color_echo $GREEN "========================================"
+    color_echo $YELLOW "checking kernel features..."
+    [ -z "$CONFIG_PATH" ] && color_echo $RED "kernel config missing: skipped." || check_kernel_features
     color_echo $GREEN "========================================"
     color_echo $YELLOW "checking binderfs..."
     check_binderfs
@@ -129,20 +129,27 @@ check_env(){
 print_summary() {
     color_echo $GREEN "========================================"
     color_echo $YELLOW Summary
-    [ -n "$KERNEL_VERSION_MISMATCH" ] && color_echo $RED "FATAL: Kernel version mismatch!" && export FATAL=1
+    [ -n "$KERNEL_VERSION_MISMATCH" ] && color_echo $RED "FATAL: Kernel version mismatch" && export FATAL=1
     [ -n "$MALI_KERNEL_DRIVER_MISSING" ] && color_echo $RED "FATAL: Mali kernel driver missing" && export FATAL=1
     [ -n "$MALI_DDK_VER_MISMATCH" ] && color_echo $RED "FATAL: Mali DDK version mismatch" && export FATAL=1
-    [ -n "$BINDERFS_MISSING" ] && color_echo $RED "FATAL: CONFIG_ANDROID_BINDERFS is not enabled in your kernel" && export FATAL=1
-    [ -n "$PSI_MISSING" ] && color_echo $RED "FATAL: CONFIG_PSI is not enabled in your kernel" && export FATAL=1
-    [ -n "$VA_MISSING" ] && color_echo $YELLOW "WARN: CONFIG_ARM64_VA_BITS is not 39. Some apps may crash. "
-    [ -n "$FATAL" ] && color_echo $RED "FATAL: At least one of those mandatory kernel features are not met. You must install another kernel or compile kernel by yourself." && exit 1 || color_echo $GREEN "All mandatory features are met."
+    if [ -z "$CONFIG_PATH" ] 
+    then
+        color_echo $RED "ERROR: Can not find your kernel config. Some required kernel feature(s) may not enabled in your kernel."
+    else
+        [ -n "$BINDERFS_MISSING" ] && color_echo $RED "FATAL: CONFIG_ANDROID_BINDERFS is not enabled in your kernel" && export FATAL=1
+        [ -n "$PSI_MISSING" ] && color_echo $RED "FATAL: CONFIG_PSI is not enabled in your kernel" && export FATAL=1
+    fi
+    [ -n "$FATAL" ] && color_echo $RED "FATAL: At least one of those mandatory kernel features are not met. You must find another kernel built with those features or build a customized kernel by yourself." && exit 1 || color_echo $GREEN "Mandatory features are met."
+    [ -n "$VA_MISSING" ] && color_echo $PURPLE "WARN: CONFIG_ARM64_VA_BITS is not 39. Some apps may crash. "
+    [ -z "$MALI_CSF_FW_MISSING" ] || color_echo $RED "ERROR: Mali firmware missing. Please place firmware_g610/mali_csffw.bin under /lib/firmware."
+    [ -z "$MALI_CSF_FW_GIT_SHA_MISMATCH" ] || color_echo $RED "ERROR: Mali firmware version mismatch. Please place firmware_g610/mali_csffw.bin under /lib/firmware."
 }
 
 main(){
     color_echo $GREEN "========================================"
-    color_echo $YELLOW "redroid-rk3588 environment check script, version $VERSION"
-	check_env
-	print_summary
+    color_echo $YELLOW "redroid-rk3588 environment check script, version $SCRIPT_VER"
+    check_env
+    print_summary
 }
 
 main "$@"
