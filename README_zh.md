@@ -5,10 +5,14 @@
 
 
 ## 支持安卓版本
+### AOSP 版 (调试构建/userdebug)
 - `Android 12(12.0.0-latest)`
 - `Android 13(13.0.0-latest)`
+### LineageOS 版 (用户构建/user)
+- `Android 13(13.0.0-lineage)` 基于`LineageOS 20`
 
 ## 支持功能
+`AOSP`版与`LineageOS`版均支持以下功能:  
 - `GPU` (Mali-G610) 硬件加速 (软件渲染不可用)
 - 预装`Gapps`  
 - 预装`Magisk Kitsune版`
@@ -66,24 +70,28 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 
 ## 参数
 
-| 参数 | 描述 | 默认值 |
-| --- | --- | --- |
-| `androidboot.redroid_fps` | 设置刷新率, 取值范围 (1,120) | 60 |
-| `androidboot.redroid_magisk` | 是否启用 Magisk | 0 |
-| `androidboot.redroid_fake_wifi` | 是否启用虚假 WiFi | 0 |
-| `androidboot.redroid_fake_wifi_ssid` | 设置虚假 WiFi SSID | FakeWiFi |
-| `androidboot.redroid_fake_wifi_bssid` | 设置虚假 WiFi BSSID | 66:55:44:33:22:11 |
-| `androidboot.redroid_fake_wifi_mac` | 设置虚假 WiFi MAC 地址 | 11:22:33:44:55:66 |
-| `androidboot.redroid_fake_wifi_speed` | 设置虚假 WiFi 速度(Mbps) | 866 |
-| `androidboot.redroid_adbd_bind_eth0` | 是否绑定ADB Socket到eth0上 | 1 |
-| `ro.adb.secure` | 是否启用ADB调试授权认证 | 0 |
+| 参数 | 描述 | 默认值 | 备注
+| --- | --- | --- | --- |
+| `androidboot.redroid_fps` | 设置刷新率, 取值范围 (1,120) | 60 | |
+| `androidboot.redroid_magisk` | 是否启用 Magisk | 0 | |
+| `androidboot.redroid_fake_wifi` | 是否启用虚假 WiFi | 0 | |
+| `androidboot.redroid_fake_wifi_ssid` | 设置虚假 WiFi SSID | FakeWiFi | |
+| `androidboot.redroid_fake_wifi_bssid` | 设置虚假 WiFi BSSID | 66:55:44:33:22:11 | |
+| `androidboot.redroid_fake_wifi_mac` | 设置虚假 WiFi MAC 地址 | 11:22:33:44:55:66 | |
+| `androidboot.redroid_fake_wifi_speed` | 设置虚假 WiFi 速度(Mbps) | 866 | |
+| `androidboot.redroid_adbd_bind_eth0` | 是否绑定ADB Socket到eth0上 | 1 | |
+| `ro.adb.secure` | 是否启用ADB调试授权认证 | 0 | `LineageOS版`默认为1 |
+| `androidboot.redroid_create_secure_display` | 是否创建安全显示器 | 1 | 仅`LineageOS版`可用 |
+
 
 （0代表不启用，1代表启用，留空则应用默认值）
 
 ## 文档
 [Google Play保护机制认证](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-Google-Play%E4%BF%9D%E6%8A%A4%E6%9C%BA%E5%88%B6%E8%AE%A4%E8%AF%81)  
 [启用ADB授权](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-%E5%90%AF%E7%94%A8ADB%E6%8E%88%E6%9D%83)  
-[App兼容列表](https://github.com/CNflysky/redroid-rk3588/discussions/8)
+[App兼容列表](https://github.com/CNflysky/redroid-rk3588/discussions/8)  
+[关于虚假WiFi](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-%E5%85%B3%E4%BA%8E%E8%99%9A%E5%81%87WiFi)  
+[更改设备类型](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-%E6%9B%B4%E6%94%B9%E8%AE%BE%E5%A4%87%E7%B1%BB%E5%9E%8B)
 
 ## 截图展示
 
