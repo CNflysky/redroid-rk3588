@@ -3,10 +3,12 @@
 
 ## Supported Versions
 ### AOSP (userdebug build)
+**Note: AOSP builds are no longer maintained.**
 - `Android 12(12.0.0-latest)`
 - `Android 13(13.0.0-latest)`
+
 ### LineageOS (user build)
-- `Android 13(13.0.0-lineage)` Based on `LineageOS 20`
+- `LineageOS 20 (lineage-20)`
 
 ## Supported Features
 Both `AOSP` build and `LineageOS` build have these features:  

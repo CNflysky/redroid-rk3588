@@ -5,11 +5,13 @@
 
 
 ## 支持安卓版本
+**注意：AOSP 版镜像将不再进行维护。**
 ### AOSP 版 (调试构建/userdebug)
 - `Android 12(12.0.0-latest)`
 - `Android 13(13.0.0-latest)`
+
 ### LineageOS 版 (用户构建/user)
-- `Android 13(13.0.0-lineage)` 基于`LineageOS 20`
+- `LineageOS 20 (lineage-20)`
 
 ## 支持功能
 `AOSP`版与`LineageOS`版均支持以下功能:  
