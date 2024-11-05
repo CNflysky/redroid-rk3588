@@ -1,4 +1,5 @@
-# Redroid Image For RK3588 with Multiple Features
+# redroid-rk3588
+_Redroid images for Rockchip RK3588 series SoC_  
 [Simplified Chinese(简体中文)](./README_zh.md)  
 
 ## Supported Versions
@@ -65,7 +66,7 @@ To switch between Android versions, edit the `docker-compose.yml` file, change i
 ### Manual: 
 
 ```bash
-docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
+docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --name redroid --privileged cnflysky/redroid-rk3588:lineage-20 androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
 
 ## Arguments

@@ -1,4 +1,5 @@
-# 适用于RK3588的Redroid镜像，包含多种功能
+# redroid-rk3588
+_适用于瑞芯微RK3588系列SoC的redroid镜像。_  
 ## 交流群
 企鹅群：712725497
 ![qrcode_1723263001150](https://github.com/user-attachments/assets/dee81380-831b-4f61-98d9-42e499a9788d)
@@ -65,7 +66,7 @@ docker-compose up -d
 
 ### 手动运行：
 ```bash
-docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --name redroid --privileged cnflysky/redroid-rk3588:12.0.0-latest androidboot.redroid_height=1920 androidboot.redroid_width=1080
+docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --name redroid --privileged cnflysky/redroid-rk3588:lineage-20 androidboot.redroid_height=1920 androidboot.redroid_width=1080
 ```
 
 其中，`-v` 参数值 `~/redroid-data:/data` 中冒号前的部分`~/redroid-data` 代表你要在宿主机的哪个位置存放安卓容器内的`用户数据`(也就是`/data`目录)，可以根据自己的需求更改。
@@ -86,7 +87,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 | `androidboot.redroid_create_secure_display` | 是否创建安全显示器 | 1 | 仅`LineageOS版`可用 |
 
 
-（0代表不启用，1代表启用，留空则应用默认值）
+（0代表禁用，1代表启用，留空则应用默认值）
 
 ## 文档
 [Google Play保护机制认证](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-Google-Play%E4%BF%9D%E6%8A%A4%E6%9C%BA%E5%88%B6%E8%AE%A4%E8%AF%81)  
