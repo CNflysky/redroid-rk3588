@@ -8,8 +8,7 @@ _Redroid images for Rockchip RK3588 series SoC_
 - `LineageOS 20 (lineage-20)`
 
 AOSP builds [here](#deprecated-builds)
-## Supported Features
-Both `AOSP` build and `LineageOS` build have these features:  
+## Supported Features 
 - `GPU` (Mali-G610) accelerated (SW render not available)
 - `Gapps`
 - `Magisk (Kitsune fork)`
