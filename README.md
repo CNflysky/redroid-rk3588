@@ -3,25 +3,19 @@ _Redroid images for Rockchip RK3588 series SoC_
 [Simplified Chinese(简体中文)](./README_zh.md)  
 
 ## Supported Versions
-### AOSP (userdebug build)
-**Note: AOSP builds are no longer maintained.**
-- `Android 12(12.0.0-latest)`
-- `Android 13(13.0.0-latest)`
 
 ### LineageOS (user build)
 - `LineageOS 20 (lineage-20)`
 
+AOSP builds [here](#deprecated-builds)
 ## Supported Features
 Both `AOSP` build and `LineageOS` build have these features:  
 - `GPU` (Mali-G610) accelerated (SW render not available)
 - `Gapps`
 - `Magisk (Kitsune fork)`
-- `Via` Browser
-- `LineageOS Trebuchet` launcher
-- `LineageOS Music`
-- `LineageOS Gallery`
 - `surfaceflinger` patched so can type password in apps without black screen
 - `Fake WiFi` (let apps believe WiFi is connected)
+- `scrcpy physical keyboard/mouse emulation` support
 
 ## Tested Devices
 
@@ -34,7 +28,8 @@ Both `AOSP` build and `LineageOS` build have these features:
 - Mali CSF GPU driver version `g18p0`
 - Mali CSF Firmware in `/lib/firmware/`
 - `CONFIG_PSI=y`
-- `CONFIG_ANDROID_BINDERFS=y`  
+- `CONFIG_ANDROID_BINDERFS=y` 
+
 You can run `envcheck.sh` script to check them.
 
 ## Run
@@ -71,18 +66,19 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 
 ## Arguments
 
-| Argument | Description | Default | Note |
-| --- | --- | --- | --- |
-| `androidboot.redroid_fps` | set fps, range (1,120) | 60 | |
-| `androidboot.redroid_magisk` | enable magisk | 0 | |
-| `androidboot.redroid_fake_wifi` | enable fake WiFi | 0 | |
-| `androidboot.redroid_fake_wifi_ssid` | set fake WiFi ssid | FakeWiFi | |
-| `androidboot.redroid_fake_wifi_bssid` | set fake WiFi bssid | 66:55:44:33:22:11 | |
-| `androidboot.redroid_fake_wifi_mac` | set fake WiFi mac address | 11:22:33:44:55:66 | |
-| `androidboot.redroid_fake_wifi_speed` | set fake WiFi speed(Mbps) | 866 | |
-| `androidboot.redroid_adbd_bind_eth0` | bind adb socket to eth0 | 1 | |
-| `ro.adb.secure` | enable ADB authentication | 0 | `LineageOS` default is 1 |
-| `androidboot.redroid_create_secure_display` | create secure display | 1 | only available in `LineageOS` |
+| Argument | Description | Default |
+| --- | --- | --- |
+| `androidboot.redroid_fps` | set fps, range (1,120) | 60 |
+| `androidboot.redroid_magisk` | enable magisk | 0 |
+| `androidboot.redroid_fake_wifi` | enable fake WiFi | 0 |
+| `androidboot.redroid_fake_wifi_ssid` | set fake WiFi ssid | FakeWiFi |
+| `androidboot.redroid_fake_wifi_bssid` | set fake WiFi bssid | 66:55:44:33:22:11 |
+| `androidboot.redroid_fake_wifi_mac` | set fake WiFi mac address | 11:22:33:44:55:66 |
+| `androidboot.redroid_fake_wifi_speed` | set fake WiFi speed(Mbps) | 866 |
+| `androidboot.redroid_adbd_bind_eth0` | bind adb socket to eth0 | 1 |
+| `ro.adb.secure` | enable ADB authentication | 1 |
+| `androidboot.redroid_create_secure_display` | create secure display by default | 1 |
+| `androidboot.redroid_enable_input_subsys` | enable input subsystem | 0 |
 
 (0 = disable, 1 = enable)
 
@@ -91,7 +87,14 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 [Enable ADB authentication](https://github.com/CNflysky/redroid-rk3588/wiki/en:-Enable-ADB-authentication)  
 [App compatibility list](https://github.com/CNflysky/redroid-rk3588/discussions/8)  
 [About Fake WiFi](https://github.com/CNflysky/redroid-rk3588/wiki/en:-About-FakeWiFi)  
-[Switch device type](https://github.com/CNflysky/redroid-rk3588/wiki/en:-Switch-device-type)
+[Switch device type](https://github.com/CNflysky/redroid-rk3588/wiki/en:-Switch-device-type)  
+[scrcpy physical keyboard/mouse emulation](https://github.com/CNflysky/redroid-rk3588/wiki/en:-scrcpy-physical-keyboard-mouse-emulation)
+
+## Deprecated builds
+### AOSP (userdebug build)
+**Note: AOSP builds are no longer maintained.**
+- `Android 12(12.0.0-latest)`
+- `Android 13(13.0.0-latest)`
 
 ## Screenshots
 

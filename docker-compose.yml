@@ -1,4 +1,3 @@
-version: '3'
 services:
   redroid:
     image: cnflysky/redroid-rk3588:lineage-20
@@ -21,5 +20,3 @@ services:
 
       # see https://source.android.com/docs/setup/create/new-device PRODUCT_CHARACTERISTICS 
       - "ro.build.characteristics=default"
-      # uncomment following line to enable adb authentication
-      # - "ro.adb.secure=1"
