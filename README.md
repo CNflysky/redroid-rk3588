@@ -1,5 +1,7 @@
 # redroid-rk3588
 _Redroid images for Rockchip RK3588 series SoC_  
+![Screenshot](https://github.com/user-attachments/assets/6c6d2b7c-d9a3-4e9c-aa51-7fc23aaa571d)
+
 [zh_CN(简体中文)](./README_zh.md)  
 
 ## Supported Versions
