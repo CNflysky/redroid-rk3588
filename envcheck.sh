@@ -1,5 +1,5 @@
 #!/bin/bash
-export SCRIPT_VER=0.2
+export SCRIPT_VER=0.3
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
@@ -17,7 +17,7 @@ color_echo() {
 }
 
 check_kernel_version() {
-    if grep -q "5.10" /proc/version > /dev/null 2>&1
+    if grep -qE "5.10|6.1" /proc/version > /dev/null 2>&1
     then
 	color_echo $GREEN "Kernel version: `uname -r`"
     else
@@ -105,6 +105,10 @@ check_binderfs() {
     fi
 }
 
+check_dma_heap_devices() {
+    [ -f /dev/dma_heap/system_uncached ] || export NO_ANDROID_DMA_BUF_DEVICE=1
+}
+
 check_env(){
     color_echo $GREEN "========================================"
     color_echo $YELLOW "checking kernel version..."
@@ -124,6 +128,9 @@ check_env(){
     color_echo $GREEN "========================================"
     color_echo $YELLOW "checking binderfs..."
     check_binderfs
+    color_echo $GREEN "========================================"
+    color_echo $YELLOW "checking dma-heap devices..."
+    check_dma_heap_devices
 }
 
 print_summary() {
@@ -132,6 +139,7 @@ print_summary() {
     [ -n "$KERNEL_VERSION_MISMATCH" ] && color_echo $RED "FATAL: Kernel version mismatch" && export FATAL=1
     [ -n "$MALI_KERNEL_DRIVER_MISSING" ] && color_echo $RED "FATAL: Mali kernel driver missing" && export FATAL=1
     [ -n "$MALI_DDK_VER_MISMATCH" ] && color_echo $RED "FATAL: Mali DDK version mismatch" && export FATAL=1
+    [ -n "$NO_ANDROID_DMA_BUF_DEVICE" ] && color_echo $RED "FATAL: Android specific dma-buf heap device missing" && export FATAL=1
     if [ -z "$CONFIG_PATH" ] 
     then
         color_echo $RED "ERROR: Can not find your kernel config. Some required kernel feature(s) may not enabled in your kernel."

@@ -1,6 +1,6 @@
 # redroid-rk3588
 _Redroid images for Rockchip RK3588 series SoC_  
-[Simplified Chinese(简体中文)](./README_zh.md)  
+[zh_CN(简体中文)](./README_zh.md)  
 
 ## Supported Versions
 
@@ -23,15 +23,16 @@ AOSP builds [here](#deprecated-builds)
 - `Orange Pi 5 w/8G RAM`, OS `Armbian Desktop` (`Debian 12 "Bookworm" XFCE Desktop`) with `5.10.160` kernel (Customzied), Docker version 20.10.24(`docker.io`).
 
 ## Prerequisites
-- Kernel version `5.10`
+- Kernel version `5.10`/`6.1` (customized 6.1 [kernel](https://github.com/CNflysky/linux-rockchip) required)
 - Mali CSF GPU driver version `g18p0`
 - Mali CSF Firmware in `/lib/firmware/`
 - `CONFIG_PSI=y`
 - `CONFIG_ANDROID_BINDERFS=y` 
+- Android specific `DMA-BUF` device support
 
 You can run `envcheck.sh` script to check them.
 
-## Run
+## Deploy
 ### Using docker compose: 
 
 #### Clone this repo: 
@@ -94,15 +95,3 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 **Note: AOSP builds are no longer maintained.**
 - `Android 12(12.0.0-latest)`
 - `Android 13(13.0.0-latest)`
-
-## Screenshots
-
-### Android 12
-![Android 12](https://github.com/CNflysky/redroid-rk3588/assets/48781081/1fb19e50-b6d7-414a-838f-93a2069a1c2c)
-### Android 13
-![Android 13](https://github.com/CNflysky/redroid-rk3588/assets/48781081/06336b3c-3acc-420e-afd3-40af518aa9fc)
-### Apps
-![Screenshot_20240307-072620](https://github.com/CNflysky/redroid-rk3588/assets/48781081/5cb921b6-ff7f-4d4b-8758-d788d91339b8)
-![Screenshot_20240307-072633](https://github.com/CNflysky/redroid-rk3588/assets/48781081/308cd487-5f90-470c-88fd-4ade4973d5a5)
-![Screenshot_20240307-072722](https://github.com/CNflysky/redroid-rk3588/assets/48781081/e6edcf4f-a761-47d3-8ce9-1f7d7ca194e8)
-![Screenshot_20240307-072751](https://github.com/CNflysky/redroid-rk3588/assets/48781081/be2d1163-93bf-4590-a474-b5f0fadb2d20)
