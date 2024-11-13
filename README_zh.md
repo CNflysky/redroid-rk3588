@@ -1,5 +1,7 @@
 # redroid-rk3588
 _适用于瑞芯微RK3588系列SoC的redroid镜像。_  
+![Screenshot](https://github.com/user-attachments/assets/4c187043-4873-4eea-acc5-54f34ebce8d7)
+
 ## 交流群
 企鹅群：712725497
 ![qrcode_1723263001150](https://github.com/user-attachments/assets/dee81380-831b-4f61-98d9-42e499a9788d)
