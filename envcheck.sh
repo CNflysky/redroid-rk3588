@@ -106,7 +106,13 @@ check_binderfs() {
 }
 
 check_dma_heap_devices() {
-    [ -f /dev/dma_heap/system_uncached ] || export NO_ANDROID_DMA_BUF_DEVICE=1
+    if [ -f /dev/dma_heap/system_uncached ]
+    then
+        color_echo $GREEN "dma-buf device is present."
+    else
+        color_echo $RED "dma-buf device is not exist."
+        export NO_ANDROID_DMA_BUF_DEVICE=1
+    fi
 }
 
 check_env(){

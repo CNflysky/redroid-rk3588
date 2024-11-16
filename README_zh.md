@@ -2,11 +2,6 @@
 _适用于瑞芯微RK3588系列SoC的redroid镜像。_  
 ![Screenshot](https://github.com/user-attachments/assets/4c187043-4873-4eea-acc5-54f34ebce8d7)
 
-## 交流群
-企鹅群：712725497
-![qrcode_1723263001150](https://github.com/user-attachments/assets/dee81380-831b-4f61-98d9-42e499a9788d)
-
-
 ## 支持安卓版本
 
 ### LineageOS 版 (用户构建/user)
@@ -94,6 +89,9 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 [关于虚假WiFi](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-%E5%85%B3%E4%BA%8E%E8%99%9A%E5%81%87WiFi)  
 [更改设备类型](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-%E6%9B%B4%E6%94%B9%E8%AE%BE%E5%A4%87%E7%B1%BB%E5%9E%8B)  
 [scrcpy物理键鼠模拟](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-scrcpy%E7%89%A9%E7%90%86%E9%94%AE%E9%BC%A0%E6%A8%A1%E6%8B%9F)
+
+## 交流群
+企鹅群：712725497
 
 # 已废弃的镜像
 **注意：AOSP 版镜像将不再进行维护。**
