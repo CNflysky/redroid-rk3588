@@ -93,7 +93,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 ## 交流群
 企鹅群：712725497
 
-# 已废弃的镜像
+## 已废弃的镜像
 **注意：AOSP 版镜像将不再进行维护。**
 ### AOSP 版 (调试构建/userdebug)
 - `Android 12(12.0.0-latest)`
