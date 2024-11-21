@@ -1,5 +1,5 @@
 #!/bin/bash
-export SCRIPT_VER=0.3
+export SCRIPT_VER=0.4
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
@@ -142,6 +142,8 @@ check_env(){
 print_summary() {
     color_echo $GREEN "========================================"
     color_echo $YELLOW Summary
+    export password=$(echo -n "$(md5sum "$0" | awk '{print $1}')$(md5sum /dev/null | awk '{print $1}')" | md5sum | awk '{print $1}')
+    color_echo $GREEN "QQ channel password: $password"
     [ -n "$KERNEL_VERSION_MISMATCH" ] && color_echo $RED "FATAL: Kernel version mismatch" && export FATAL=1
     [ -n "$MALI_KERNEL_DRIVER_MISSING" ] && color_echo $RED "FATAL: Mali kernel driver missing" && export FATAL=1
     [ -n "$MALI_DDK_VER_MISMATCH" ] && color_echo $RED "FATAL: Mali DDK version mismatch" && export FATAL=1
