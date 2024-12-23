@@ -19,16 +19,19 @@ AOSP版请点击[这里](#已废弃的镜像)
 
 ## 测试设备
 
-- `Orange Pi 5 Plus w/16G RAM` ，运行 `Armbian 服务器版`（`Debian 12 "Bookworm"`） ，内核版本 `5.10.160` （自定义内核），Docker版本`20.10.24`（`docker.io`）。 
+- `Orange Pi 5 Plus w/16G RAM` ，运行 `Armbian 服务器版`（`Debian 12 "Bookworm"`） ，内核版本 `Armbian 5.10.160` （自定义内核），Docker版本`20.10.24`（`docker.io`）。 
 - `Orange Pi 5 Plus w/16G RAM` ，运行 `Ubuntu Rockchip` (`Ubuntu 22.04 "Jammy" Gnome 桌面`) ，内核版本 `5.10.0-1009-rockchip` （默认自带内核），Docker版本`27.0.3`（`docker-ce`）。
-- `Orange Pi 5 w/8G RAM` ，运行 `Armbian 桌面版`（`Debian 12 "Bookworm" XFCE 桌面`） ，内核版本 `5.10.160` （自定义内核），Docker版本`20.10.24`（`docker.io`）。  
+- `Orange Pi 5 w/8G RAM` ，运行 `Armbian 桌面版`（`Debian 12 "Bookworm" XFCE 桌面`） ，内核版本 `Armbian 5.10.160` （自定义内核），Docker版本`20.10.24`（`docker.io`）。 
+- `Orange Pi 5 Plus w/16G RAM` ，运行 `Armbian 服务器版`（`Debian 12 "Bookworm"`） ，内核版本 `Armbian 6.1.75` （自定义内核），Docker版本`20.10.24`（`docker.io`）。  
+- `Orange Pi 5 Plus w/16G RAM` ，运行 `Armbian 服务器版`（`Debian 12 "Bookworm"`） ，内核版本 `Armbian 6.1.84` （自定义内核），Docker版本`20.10.24`（`docker.io`）。 
 
 ## 系统要求
 - 内核版本 `5.10`/`6.1` (需要自定义的6.1[内核](https://github.com/CNflysky/linux-rockchip))
-- Mali CSF 内核驱动版本 `g18p0`
+- Mali CSF GPU 内核驱动
 - Mali 固件，置于`/lib/firmware/`下
 - `CONFIG_PSI=y`
 - `CONFIG_ANDROID_BINDERFS=y`  
+- Android专有的`DMA-BUF`设备支持  
 
 你可以运行`envcheck.sh`来检查这些要求。
 

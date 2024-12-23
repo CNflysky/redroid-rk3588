@@ -20,14 +20,16 @@ AOSP builds [here](#deprecated-builds)
 
 ## Tested Devices
 
-- `Orange Pi 5 Plus w/16G RAM`, OS `Armbian Server` (`Debian 12 "Bookworm"`) with `5.10.160` kernel (Customzied), Docker version 20.10.24(`docker.io`).
+- `Orange Pi 5 Plus w/16G RAM`, OS `Armbian Server` (`Debian 12 "Bookworm"`) with `Armbian 5.10.160` kernel (Customized), Docker version 20.10.24(`docker.io`).
 - `Orange Pi 5 Plus w/16G RAM`, OS `Ubuntu Rockchip` (`Ubuntu 22.04 "Jammy" Gnome Desktop`) with `5.10.0-1009-rockchip` kernel (Stock), Docker version 27.0.3(`docker-ce`).
-- `Orange Pi 5 w/8G RAM`, OS `Armbian Desktop` (`Debian 12 "Bookworm" XFCE Desktop`) with `5.10.160` kernel (Customzied), Docker version 20.10.24(`docker.io`).
+- `Orange Pi 5 w/8G RAM`, OS `Armbian Desktop` (`Debian 12 "Bookworm" XFCE Desktop`) with `Armbian 5.10.160` kernel (Customized), Docker version 20.10.24(`docker.io`).
+- `Orange Pi 5 Plus w/16G RAM`, OS `Armbian Server` (`Debian 12 "Bookworm"`) with `Armbian 6.1.75` kernel (Customized), Docker version 20.10.24(`docker.io`).
+- `Orange Pi 5 Plus w/16G RAM`, OS `Armbian Server` (`Debian 12 "Bookworm"`) with `Armbian 6.1.84` kernel (Customized), Docker version 20.10.24(`docker.io`).
 
 ## Prerequisites
 - Kernel version `5.10`/`6.1` (customized 6.1 [kernel](https://github.com/CNflysky/linux-rockchip) required)
-- Mali CSF GPU driver version `g18p0`
-- Mali CSF Firmware in `/lib/firmware/`
+- Mali CSF GPU kernel driver
+- Mali CSF firmware in `/lib/firmware/`
 - `CONFIG_PSI=y`
 - `CONFIG_ANDROID_BINDERFS=y` 
 - Android specific `DMA-BUF` device support
