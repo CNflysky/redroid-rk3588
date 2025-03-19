@@ -36,6 +36,11 @@ AOSP builds [here](#deprecated-builds)
 
 You can run `envcheck.sh` script to check them.
 
+## Preconfigured images
+- [Armbian minimal for OPi 5 6.1.84](https://github.com/CNflysky/redroid-rk3588/releases/download/v1.0.1/Armbian_25.2.1_Orangepi5_bookworm_vendor_6.1.84_minimal_redroid_ready.img.xz)
+
+These images has customized kernel installed and can run redroid out-of-box.
+
 ## Deploy
 ### Using docker compose: 
 

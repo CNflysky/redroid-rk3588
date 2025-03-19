@@ -35,6 +35,10 @@ AOSP版请点击[这里](#已废弃的镜像)
 
 你可以运行`envcheck.sh`来检查这些要求。
 
+## 预配置的镜像
+- [Armbian minimal 适用于 香橙派5 6.1.84](https://github.com/CNflysky/redroid-rk3588/releases/download/v1.0.1/Armbian_25.2.1_Orangepi5_bookworm_vendor_6.1.84_minimal_redroid_ready.img.xz)  
+
+这些镜像已经配置了自定义的内核，可直接运行redroid。  
 
 ## 部署
 ### 使用docker-compose：
