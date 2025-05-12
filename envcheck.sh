@@ -16,15 +16,6 @@ color_echo() {
     echo -e "${color}$*${NC}"
 }
 
-check_kernel_version() {
-    if grep -qE "5.10|6.1" /proc/version >/dev/null 2>&1; then
-        color_echo $GREEN "Kernel version: $(uname -r)"
-    else
-        color_echo $RED "Kernel version unsupported: $(uname -r)"
-        export UNSUPPORTED_KERNEL=1
-    fi
-}
-
 check_mali_driver() {
     if $GREP_EXE -qP "^CONFIG_MALI_BIFROST=(y|m)" $CONFIG_PATH >/dev/null 2>&1; then
         if [ ! -c /dev/mali0 ]; then
@@ -102,9 +93,6 @@ check_dma_heap_devices() {
 
 check_env() {
     color_echo $GREEN "========================================"
-    color_echo $YELLOW "checking kernel version..."
-    check_kernel_version
-    color_echo $GREEN "========================================"
     color_echo $YELLOW "checking kernel config location..."
     check_kernel_config_location
     if [ -z "$CONFIG_PATH" ]; then
@@ -131,9 +119,6 @@ check_env() {
 print_summary() {
     color_echo $GREEN "========================================"
     color_echo $YELLOW Summary
-    export password=$(echo -n "$(md5sum "$0" | awk '{print $1}')$(md5sum /dev/null | awk '{print $1}')" | md5sum | awk '{print $1}')
-    color_echo $GREEN "QQ channel password: $password"
-    [ -n "$UNSUPPORTED_KERNEL" ] && color_echo $RED "FATAL: Kernel version mismatch" && export FATAL=1
     [ -n "$NO_MALI_KERNEL_DRIVER" ] && color_echo $RED "FATAL: Mali kernel driver missing" && export FATAL=1
     [ -n "$NO_ANDROID_DMA_BUF_DEVICE" ] && color_echo $RED "FATAL: required dma-buf heap device missing" && export FATAL=1
     [ -n "$NO_BINDERFS" ] && color_echo $RED "FATAL: CONFIG_ANDROID_BINDERFS is not enabled in your kernel" && export FATAL=1
@@ -146,7 +131,7 @@ print_summary() {
 
 main() {
     color_echo $GREEN "========================================"
-    color_echo $YELLOW "redroid-rk3588 environment check script, version $SCRIPT_VER"
+    color_echo $YELLOW "redroid-rk3588 environment check script"
     check_env
     print_summary
 }
