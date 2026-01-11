@@ -20,25 +20,21 @@ AOSP版请点击[这里](#已废弃的镜像)
 ## 测试设备
 
 - `Orange Pi 5 Plus w/16G RAM` ，运行 `Armbian 服务器版`（`Debian 12 "Bookworm"`） ，内核版本 `Armbian 5.10.160` （自定义内核），Docker版本`20.10.24`（`docker.io`）。 
-- `Orange Pi 5 Plus w/16G RAM` ，运行 `Ubuntu Rockchip` (`Ubuntu 22.04 "Jammy" Gnome 桌面`) ，内核版本 `5.10.0-1009-rockchip` （默认自带内核），Docker版本`27.0.3`（`docker-ce`）。
+- `Orange Pi 5 Plus w/16G RAM` ，运行 `Ubuntu Rockchip` (`Ubuntu 22.04 "Jammy" Gnome 桌面`) ，内核版本 `5.10.0-1009-rockchip` （默认内核），Docker版本`27.0.3`（`docker-ce`）。
 - `Orange Pi 5 w/8G RAM` ，运行 `Armbian 桌面版`（`Debian 12 "Bookworm" XFCE 桌面`） ，内核版本 `Armbian 5.10.160` （自定义内核），Docker版本`20.10.24`（`docker.io`）。 
 - `Orange Pi 5 Plus w/16G RAM` ，运行 `Armbian 服务器版`（`Debian 12 "Bookworm"`） ，内核版本 `Armbian 6.1.75` （自定义内核），Docker版本`20.10.24`（`docker.io`）。  
 - `Orange Pi 5 Plus w/16G RAM` ，运行 `Armbian 服务器版`（`Debian 12 "Bookworm"`） ，内核版本 `Armbian 6.1.84` （自定义内核），Docker版本`20.10.24`（`docker.io`）。 
+- `Orange Pi 5 Plus w/16G RAM` ，运行 `Armbian 服务器版`（`Debian 13 "Trixie"`） ，内核版本 `Armbian 6.1.115` （默认内核），Docker版本`26.1.5+dfsg1`（`docker.io`）。 
 
 ## 系统要求
-- 内核版本 `5.10`/`6.1` (需要自定义的6.1[内核](https://github.com/CNflysky/linux-rockchip))
+- 内核版本 `Armbian vendor kernel for RK35XX (linux-image-vendor-rk35xx)`
 - Mali CSF GPU 内核驱动
 - Mali 固件，置于`/lib/firmware/`下
 - `CONFIG_PSI=y`
 - `CONFIG_ANDROID_BINDERFS=y`  
-- Android专有的`DMA-BUF`设备支持  
+- `DMA-BUF`设备支持  
 
 你可以运行`envcheck.sh`来检查这些要求。
-
-## 预配置的镜像
-- [Armbian minimal 适用于 香橙派5 6.1.84](https://github.com/CNflysky/redroid-rk3588/releases/download/v1.0.1/Armbian_25.2.1_Orangepi5_bookworm_vendor_6.1.84_minimal_redroid_ready.img.xz)  
-
-这些镜像已经配置了自定义的内核，可直接运行redroid。  
 
 ## 部署
 ### 使用docker-compose：
@@ -59,9 +55,6 @@ docker compose up -d
 sudo apt install docker-compose
 docker-compose up -d
 ```
-
-欲切换版本，请编辑 `docker-compose.yml` 文件，修改 `image` 后的 `tag` ，随后 `docker-compose down && docker-compose up -d` 即可。  
-**注意**: 不同版本（`Android 12`/`Android 13`）的`data`目录不能兼容，切换版本前请先备份重要数据或修改安卓容器内用户数据分区的映射目录。
 
 ### 手动运行：
 ```bash
@@ -98,7 +91,7 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 [scrcpy物理键鼠模拟](https://github.com/CNflysky/redroid-rk3588/wiki/zh:-scrcpy%E7%89%A9%E7%90%86%E9%94%AE%E9%BC%A0%E6%A8%A1%E6%8B%9F)
 
 ## 已废弃的镜像
-**注意：AOSP 版镜像将不再进行维护。**
 ### AOSP 版 (调试构建/userdebug)
+**注意：AOSP 版镜像将不再进行维护。这些镜像还需要特殊的dmabuf设备来运行。**
 - `Android 12(12.0.0-latest)`
 - `Android 13(13.0.0-latest)`  

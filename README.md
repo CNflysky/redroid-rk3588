@@ -25,9 +25,10 @@ AOSP builds [here](#deprecated-builds)
 - `Orange Pi 5 w/8G RAM`, OS `Armbian Desktop` (`Debian 12 "Bookworm" XFCE Desktop`) with `Armbian 5.10.160` kernel (Customized), Docker version 20.10.24(`docker.io`).
 - `Orange Pi 5 Plus w/16G RAM`, OS `Armbian Server` (`Debian 12 "Bookworm"`) with `Armbian 6.1.75` kernel (Customized), Docker version 20.10.24(`docker.io`).
 - `Orange Pi 5 Plus w/16G RAM`, OS `Armbian Server` (`Debian 12 "Bookworm"`) with `Armbian 6.1.84` kernel (Customized), Docker version 20.10.24(`docker.io`).
+- `Orange Pi 5 Plus w/16G RAM` ，运行 `Armbian Server`（`Debian 13 "Trixie"`）with `Armbian 6.1.115` (Stock)，Docker version `26.1.5+dfsg1`（`docker.io`）.
 
 ## Prerequisites
-- Kernel version `5.10`/`6.1` (customized 6.1 [kernel](https://github.com/CNflysky/linux-rockchip) required)
+- Kernel version `Armbian vendor kernel for rk35xx (linux-image-vendor-rk35xx)`
 - Mali CSF GPU kernel driver
 - Mali CSF firmware in `/lib/firmware/`
 - `CONFIG_PSI=y`
@@ -35,11 +36,6 @@ AOSP builds [here](#deprecated-builds)
 - Android specific `DMA-BUF` device support
 
 You can run `envcheck.sh` script to check them.
-
-## Preconfigured images
-- [Armbian minimal for OPi 5 6.1.84](https://github.com/CNflysky/redroid-rk3588/releases/download/v1.0.1/Armbian_25.2.1_Orangepi5_bookworm_vendor_6.1.84_minimal_redroid_ready.img.xz)
-
-These images has customized kernel installed and can run redroid out-of-box.
 
 ## Deploy
 ### Using docker compose: 
@@ -63,9 +59,6 @@ docker compose up -d
 sudo apt install docker-compose
 docker-compose up -d
 ```
-
-To switch between Android versions, edit the `docker-compose.yml` file, change image `tag` , then recreate service.  
-**Note: The /data partitions between different Android versions are not compatible. Before switching to another Android version, please backup critical data or change mapping volume of /data partition.**
 
 ### Manual: 
 
@@ -101,6 +94,6 @@ docker run -d -p 5555:5555 -v ~/redroid-data:/data --restart unless-stopped --na
 
 ## Deprecated builds
 ### AOSP (userdebug build)
-**Note: AOSP builds are no longer maintained.**
+**Note: AOSP builds are no longer maintained. Special DMA-BUF device is required to run these images.**
 - `Android 12(12.0.0-latest)`
 - `Android 13(13.0.0-latest)`

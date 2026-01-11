@@ -83,7 +83,7 @@ check_binderfs() {
 }
 
 check_dma_heap_devices() {
-    if [ -c /dev/dma_heap/system-uncached-dma32 ]; then
+    if [ -c /dev/dma_heap/system-uncached ]; then
         color_echo $GREEN "dma-buf device is present."
     else
         color_echo $RED "dma-buf device is not exist."
