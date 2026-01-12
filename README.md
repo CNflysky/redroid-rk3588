@@ -25,7 +25,7 @@ AOSP builds [here](#deprecated-builds)
 - `Orange Pi 5 w/8G RAM`, OS `Armbian Desktop` (`Debian 12 "Bookworm" XFCE Desktop`) with `Armbian 5.10.160` kernel (Customized), Docker version 20.10.24(`docker.io`).
 - `Orange Pi 5 Plus w/16G RAM`, OS `Armbian Server` (`Debian 12 "Bookworm"`) with `Armbian 6.1.75` kernel (Customized), Docker version 20.10.24(`docker.io`).
 - `Orange Pi 5 Plus w/16G RAM`, OS `Armbian Server` (`Debian 12 "Bookworm"`) with `Armbian 6.1.84` kernel (Customized), Docker version 20.10.24(`docker.io`).
-- `Orange Pi 5 Plus w/16G RAM` ，运行 `Armbian Server`（`Debian 13 "Trixie"`）with `Armbian 6.1.115` (Stock)，Docker version `26.1.5+dfsg1`（`docker.io`）.
+- `Orange Pi 5 Plus w/16G RAM` ，OS `Armbian Server`（`Debian 13 "Trixie"`）with `Armbian 6.1.115` (Stock)，Docker version `26.1.5+dfsg1`（`docker.io`）.
 
 ## Prerequisites
 - Kernel version `Armbian vendor kernel for rk35xx (linux-image-vendor-rk35xx)`
@@ -33,7 +33,7 @@ AOSP builds [here](#deprecated-builds)
 - Mali CSF firmware in `/lib/firmware/`
 - `CONFIG_PSI=y`
 - `CONFIG_ANDROID_BINDERFS=y` 
-- Android specific `DMA-BUF` device support
+- `DMA-BUF` device support
 
 You can run `envcheck.sh` script to check them.
 
