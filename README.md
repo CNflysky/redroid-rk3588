@@ -14,7 +14,7 @@ AOSP builds [here](#deprecated-builds)
 - `GPU` (Mali-G610) accelerated (SW render not available)
 - `Gapps`
 - `Magisk (Kitsune fork)`
-- `surfaceflinger` patched so can type password in apps without black screen
+- `surfaceflinger` patched for disabling `FLAG_SECURE`
 - `Fake WiFi` (let apps believe WiFi is connected)
 - `scrcpy physical keyboard/mouse emulation` support
 
